@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "read": "Lesen",
+    "search": "Suchen",
+    "learn": "Lernen"
+  },
+  "home": {
+    "title": "Die Schriften Yahuahs",
+    "subtitle": "Lies und verstehe das Wort des Höchsten mit wiederhergestellten Originalnamen.",
+    "action_read": "Lesen",
+    "action_search": "Suchen",
+    "action_learn": "Lernen",
+    "verse_of_day": "Vers des Tages",
+    "votd_text": "Denn Elohim hat die Welt so sehr geliebt, dass Er Seinen eingeborenen Sohn gab, damit jeder, der an Ihn glaubt, nicht verloren geht, sondern ewiges Leben hat.",
+    "votd_ref": "Yahuchanan (Johannes) 3:16"
+  },
+  "read": {
+    "title": "Schriften",
+    "old_covenant": "Alter Bund",
+    "new_covenant": "Neuer Bund",
+    "chapters": "{count} Kapitel",
+    "all_chapters": "Alle Kapitel",
+    "extra_books": "Außerkanonische Schriften",
+    "extra_books_note": "Alte Schriften, die neben den Heiligen Schriften bewahrt wurden, darunter Hanok, Jasher, Jubiläen und mehr."
+  },
+  "search": {
+    "title": "Suchen",
+    "placeholder": "In den Schriften suchen…",
+    "button": "Suchen",
+    "no_results": "Keine Ergebnisse gefunden.",
+    "loading": "…"
+  },
+  "learn": {
+    "title": "Lernen",
+    "coming_soon": "Lektionen kommen bald. Erkunde die Themen unten.",
+    "beginner": "Anfänger",
+    "intermediate": "Fortgeschritten",
+    "all_ages": "Alle Altersgruppen",
+    "topic_yahuah": "Der Name Yahuahs",
+    "topic_torah": "Die Torah",
+    "topic_ruach": "Die Ruach HaQodesh",
+    "topic_feasts": "Die Feste Yahuahs",
+    "topic_mashiach": "Der Mashiach",
+    "topic_commandments": "Die Gebote"
+  },
+  "footer": {
+    "tagline": "Schriften Yahuahs — Das Wort frei verbreiten",
+    "verse": "\"Dein Wort ist meinen Füßen eine Leuchte und ein Licht auf meinem Weg.\" — Tehillim 119:105"
+  },
+  "themes": {
+    "button_label": "Thema",
+    "group_general": "Allgemein",
+    "group_breastplate": "Brustschild Aharons · Shemoth 28",
+    "parchment": "Pergament",
+    "gold": "Gold",
+    "creation": "Schöpfung",
+    "odem": "Karneol",
+    "pitdah": "Topas",
+    "bareqeth": "Smaragd",
+    "nophek": "Karfunkel",
+    "sappir": "Saphir",
+    "yahalom": "Diamant",
+    "leshem": "Hyazinth",
+    "shebo": "Achat",
+    "achlamah": "Amethyst",
+    "tarshish": "Beryll",
+    "shoham": "Onyx",
+    "yashepheh": "Jaspis"
+  }
+}

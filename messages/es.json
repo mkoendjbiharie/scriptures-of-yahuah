@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "read": "Leer",
+    "search": "Buscar",
+    "learn": "Aprender"
+  },
+  "home": {
+    "title": "Las Escrituras de Yahuah",
+    "subtitle": "Lee y comprende la Palabra del Altísimo con los nombres originales restaurados.",
+    "action_read": "Leer",
+    "action_search": "Buscar",
+    "action_learn": "Aprender",
+    "verse_of_day": "Versículo del Día",
+    "votd_text": "Porque de tal manera amó Elohim al mundo, que dio a Su Hijo unigénito, para que todo aquel que en Él cree no se pierda, sino que tenga vida eterna.",
+    "votd_ref": "Yahuchanan (Juan) 3:16"
+  },
+  "read": {
+    "title": "Escrituras",
+    "old_covenant": "Antiguo Pacto",
+    "new_covenant": "Nuevo Pacto",
+    "chapters": "{count} capítulos",
+    "all_chapters": "Todos los capítulos",
+    "extra_books": "Escritos Extracabónicos",
+    "extra_books_note": "Escritos antiguos preservados junto a las escrituras, incluyendo Enoc, Jaser, Jubileos y más."
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "Busca en las Escrituras…",
+    "button": "Buscar",
+    "no_results": "No se encontraron resultados.",
+    "loading": "…"
+  },
+  "learn": {
+    "title": "Aprender",
+    "coming_soon": "Las lecciones llegan pronto. Explora los temas a continuación.",
+    "beginner": "Principiante",
+    "intermediate": "Intermedio",
+    "all_ages": "Todas las edades",
+    "topic_yahuah": "El Nombre de Yahuah",
+    "topic_torah": "La Torah",
+    "topic_ruach": "La Ruach HaQodesh",
+    "topic_feasts": "Las Fiestas de Yahuah",
+    "topic_mashiach": "El Mashiach",
+    "topic_commandments": "Los Mandamientos"
+  },
+  "footer": {
+    "tagline": "Escrituras de Yahuah — Difundiendo la Palabra gratuitamente",
+    "verse": "\"Tu Palabra es lámpara a mis pies y luz en mi camino.\" — Tehillim 119:105"
+  },
+  "themes": {
+    "button_label": "Tema",
+    "group_general": "General",
+    "group_breastplate": "Pectoral de Aharon · Shemoth 28",
+    "parchment": "Pergamino",
+    "gold": "Oro",
+    "creation": "Creación",
+    "odem": "Cornalina",
+    "pitdah": "Topacio",
+    "bareqeth": "Esmeralda",
+    "nophek": "Carbunclo",
+    "sappir": "Zafiro",
+    "yahalom": "Diamante",
+    "leshem": "Jacinto",
+    "shebo": "Ágata",
+    "achlamah": "Amatista",
+    "tarshish": "Berilo",
+    "shoham": "Ónice",
+    "yashepheh": "Jaspe"
+  }
+}

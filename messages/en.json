@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "read": "Read",
+    "search": "Search",
+    "learn": "Learn",
+    "about": "About"
+  },
+  "home": {
+    "title": "Scriptures of Yahuah",
+    "subtitle": "Read and understand the Word of the Most High with original restored names.",
+    "action_read": "Read",
+    "action_search": "Search",
+    "action_learn": "Learn",
+    "verse_of_day": "Verse of the Day",
+    "votd_text": "For Elohim so loved the world that He gave His only brought-forth Son, so that everyone who believes in Him should not perish but possess everlasting life.",
+    "votd_ref": "Yahuchanan (John) 3:16",
+    "intro_heading": "The Word of the Most High",
+    "intro_body": "These are the Scriptures of 𐤉𐤄𐤅𐤄 — preserved, restored, and made available to all people. Read with the original Hebrew names as they were first written: Yahuah instead of ‘LORD’, Yahusha instead of ‘Jesus’, Mosheh instead of ‘Moses’. This collection includes the Torah, the Prophets, the Writings, and many extra-canonical books — 101 books in total.",
+    "path_heading": "Where would you like to begin?",
+    "path_new_title": "I’m new to the Scriptures",
+    "path_new_desc": "Start from the beginning. Learn who Yahuah is, understand the restored names, and find a gentle reading path.",
+    "path_new_cta": "Start learning →",
+    "path_familiar_title": "I know the Bible",
+    "path_familiar_desc": "Familiar with Scripture but new to the restored names? Discover what changed, and why the original names matter.",
+    "path_familiar_cta": "Explore names →",
+    "path_deep_title": "I study regularly",
+    "path_deep_desc": "Search across all 101 books by name, topic, or verse. Read extra-canonical writings alongside the canon.",
+    "path_deep_cta": "Open search →",
+    "guide_heading": "Suggested Reading Order",
+    "guide_body": "New to these Scriptures? Begin with Bereshit (Genesis) to understand creation and the covenant, then Shemoth (Exodus) for the Torah and the Name. Move to the Psalms for prayer and praise, then the Gospels — start with Mattithyahu (Matthew). For deeper study, Ḥanoḵ (Enoch) and Yubilees (Jubilees) illuminate much of what the other books reference.",
+    "guide_cta": "Begin reading →"
+  },
+  "read": {
+    "title": "Scriptures",
+    "old_covenant": "Old Covenant",
+    "new_covenant": "New Covenant",
+    "chapters": "{count} chapters",
+    "all_chapters": "All chapters",
+    "extra_books": "Extra-canonical Writings",
+    "extra_books_note": "Ancient writings preserved alongside the scriptures, including Enoch, Jasher, Jubilees, and more."
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search the Scriptures…",
+    "button": "Search",
+    "no_results": "No results found.",
+    "loading": "…"
+  },
+  "learn": {
+    "title": "Learn",
+    "coming_soon": "Lessons are coming soon. Explore topics below.",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "all_ages": "All Ages",
+    "topic_yahuah": "The Name of Yahuah",
+    "topic_torah": "The Torah",
+    "topic_ruach": "The Ruach HaQodesh",
+    "topic_feasts": "The Feasts of Yahuah",
+    "topic_mashiach": "The Mashiach",
+    "topic_commandments": "The Commandments"
+  },
+  "footer": {
+    "tagline": "Scriptures of Yahuah — Spreading the Word freely",
+    "verse": "\"Your Word is a lamp to my feet and a light to my path.\" — Tehillim 119:105"
+  },
+  "themes": {
+    "button_label": "Theme",
+    "group_general": "General",
+    "group_breastplate": "Breastplate of Aharon · Shemoth 28",
+    "parchment": "Parchment",
+    "gold": "Gold",
+    "creation": "Creation",
+    "odem": "Carnelian",
+    "pitdah": "Topaz",
+    "bareqeth": "Emerald",
+    "nophek": "Carbuncle",
+    "sappir": "Sapphire",
+    "yahalom": "Diamond",
+    "leshem": "Jacinth",
+    "shebo": "Agate",
+    "achlamah": "Amethyst",
+    "tarshish": "Beryl",
+    "shoham": "Onyx",
+    "yashepheh": "Jasper"
+  }
+}

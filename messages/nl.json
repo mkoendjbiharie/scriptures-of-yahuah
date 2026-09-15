@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "read": "Lezen",
+    "search": "Zoeken",
+    "learn": "Leren",
+    "about": "Over"
+  },
+  "home": {
+    "title": "Geschriften van Yahuah",
+    "subtitle": "Lees en begrijp het Woord van de Allerhoogste met herstelde originele namen.",
+    "action_read": "Lezen",
+    "action_search": "Zoeken",
+    "action_learn": "Leren",
+    "verse_of_day": "Vers van de Dag",
+    "votd_text": "Want Elohim heeft de wereld zo lief gehad, dat Hij Zijn eniggeboren Zoon gegeven heeft, opdat ieder die in Hem gelooft niet verloren gaat, maar eeuwig leven heeft.",
+    "votd_ref": "Yahuchanan (Johannes) 3:16",
+    "intro_heading": "Het Woord van de Allerhoogste",
+    "intro_body": "Dit zijn de Geschriften van 𐤉𐤄𐤅𐤄 — bewaard, hersteld en beschikbaar gesteld voor alle volkeren. Lees met de oorspronkelijke Hebreeuwse namen zoals zij oorspronkelijk geschreven waren: Yahuah in plaats van ‘HEER’, Yahusha in plaats van ‘Jezus’, Mosheh in plaats van ‘Mozes’. Deze verzameling omvat de Torah, de Profeten, de Geschriften en vele extra-canonieke boeken — 101 boeken in totaal.",
+    "path_heading": "Waar wilt u beginnen?",
+    "path_new_title": "Ik ben nieuw in de Geschriften",
+    "path_new_desc": "Begin bij het begin. Leer wie Yahuah is, begrijp de herstelde namen en vind een toegankelijk leespad.",
+    "path_new_cta": "Begin met leren →",
+    "path_familiar_title": "Ik ken de Bijbel",
+    "path_familiar_desc": "Bekend met de Schrift maar nieuw in de herstelde namen? Ontdek wat er veranderd is en waarom de oorspronkelijke namen van belang zijn.",
+    "path_familiar_cta": "Verken namen →",
+    "path_deep_title": "Ik studeer regelmatig",
+    "path_deep_desc": "Zoek door alle 101 boeken op naam, onderwerp of vers. Lees extra-canonieke geschriften naast de canon.",
+    "path_deep_cta": "Open zoeken →",
+    "guide_heading": "Aanbevolen leesvolgorde",
+    "guide_body": "Nieuw in deze Geschriften? Begin met Bereshit (Genesis) om schepping en verbond te begrijpen, dan Shemoth (Exodus) voor de Torah en de Naam. Ga dan naar de Psalmen voor gebed en lofzang, en vervolgens de Evangelieën — begin met Mattithyahu (Mattheüs). Voor diepgaander studie verlichten Ḥanoḵ (Henoch) en Yubilees veel van wat de andere boeken aanhalen.",
+    "guide_cta": "Begin met lezen →"
+  },
+  "read": {
+    "title": "Geschriften",
+    "old_covenant": "Oud Verbond",
+    "new_covenant": "Nieuw Verbond",
+    "chapters": "{count} hoofdstukken",
+    "all_chapters": "Alle hoofdstukken",
+    "extra_books": "Extra-canonieke Geschriften",
+    "extra_books_note": "Oude geschriften bewaard naast de schriften, waaronder Ḥanok, Yashar, Yobelim en meer."
+  },
+  "search": {
+    "title": "Zoeken",
+    "placeholder": "Doorzoek de Schriften…",
+    "button": "Zoeken",
+    "no_results": "Geen resultaten gevonden.",
+    "loading": "…"
+  },
+  "learn": {
+    "title": "Leren",
+    "coming_soon": "Lessen komen binnenkort. Verken de onderwerpen hieronder.",
+    "beginner": "Beginner",
+    "intermediate": "Gevorderd",
+    "all_ages": "Alle leeftijden",
+    "topic_yahuah": "De Naam van Yahuah",
+    "topic_torah": "De Torah",
+    "topic_ruach": "De Ruach HaQodesh",
+    "topic_feasts": "De Feesten van Yahuah",
+    "topic_mashiach": "De Mashiach",
+    "topic_commandments": "De Geboden"
+  },
+  "footer": {
+    "tagline": "Geschriften van Yahuah — Het Woord vrij verspreiden",
+    "verse": "\"Uw Woord is een lamp voor mijn voet en een licht op mijn pad.\" — Tehillim 119:105"
+  },
+  "themes": {
+    "button_label": "Thema",
+    "group_general": "Algemeen",
+    "group_breastplate": "Borstplaat van Aharon · Shemoth 28",
+    "parchment": "Perkament",
+    "gold": "Goud",
+    "creation": "Schepping",
+    "odem": "Kornalijnsteen",
+    "pitdah": "Topaas",
+    "bareqeth": "Smaragd",
+    "nophek": "Robijn",
+    "sappir": "Saffier",
+    "yahalom": "Diamant",
+    "leshem": "Hyacint",
+    "shebo": "Agaat",
+    "achlamah": "Amethist",
+    "tarshish": "Beryl",
+    "shoham": "Onyx",
+    "yashepheh": "Jaspis"
+  }
+}

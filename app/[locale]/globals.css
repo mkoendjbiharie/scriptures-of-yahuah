@@ -1,0 +1,349 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Phoenician&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ancient Hebrew (Phoenician/Paleo-Hebrew) font */
+.paleo-hebrew {
+  font-family: 'Noto Sans Phoenician', serif;
+}
+
+/* ============================================================
+   THEME VARIABLES  —  data-theme on <html>
+   ============================================================ */
+
+/* Parchment (default fallback) */
+:root,
+[data-theme="parchment"] {
+  --th-header:      #4A2C0E;
+  --th-mobile-menu: #3A2008;
+  --th-logo:        #F5E6C0;
+  --th-nav:         #EDD9A8;
+  --th-bg:          #EDE0C4;
+  --th-accent:      #9A5A18;
+  --th-active-bg:   rgba(154,90,24,0.12);
+  --th-border:      rgba(100,60,20,0.18);
+  --th-body-bg:     #EDE0C4;
+  --th-card:        #F7EECE;
+  --th-text:        #2A1506;
+  --th-muted:       #7A5530;
+  --th-gold:        #B8760A;
+}
+
+/* Gold */
+[data-theme="gold"] {
+  --th-header:      #2A1C00;
+  --th-mobile-menu: #1E1400;
+  --th-logo:        #FFE040;
+  --th-nav:         #FFD060;
+  --th-bg:          #3A2800;
+  --th-accent:      #FFD700;
+  --th-active-bg:   rgba(255,215,0,0.18);
+  --th-border:      rgba(255,215,0,0.45);
+  --th-body-bg:     #2E1E00;
+  --th-card:        #3E2C00;
+  --th-text:        #FFF8E0;
+  --th-muted:       #D4A840;
+  --th-gold:        #FFD700;
+}
+
+/* Shiny gold shimmer on headings and Paleo-Hebrew in gold theme */
+[data-theme="gold"] h1,
+[data-theme="gold"] h2,
+[data-theme="gold"] h3 {
+  background: linear-gradient(135deg, #FFD700 0%, #FFFAAA 35%, #E8A800 55%, #FFD700 75%, #FFF0A0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(255,215,0,0.5));
+}
+
+[data-theme="gold"] .paleo-hebrew {
+  background: linear-gradient(180deg, #FFFAAA 0%, #FFD700 45%, #E8A800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(255,215,0,0.7));
+}
+
+/* Shiny gold edges on cards */
+[data-theme="gold"] .theme-card {
+  background: #3E2C00;
+  border: 1px solid rgba(255,215,0,0.5);
+  box-shadow:
+    0 0 0 1px rgba(255,240,100,0.15),
+    inset 0 1px 0 rgba(255,240,120,0.35),
+    inset 0 -1px 0 rgba(180,120,0,0.3),
+    0 4px 20px rgba(255,180,0,0.12);
+}
+
+/* Shiny header border */
+[data-theme="gold"] header {
+  box-shadow: 0 1px 0 rgba(255,215,0,0.4), 0 2px 8px rgba(255,180,0,0.15);
+}
+
+/* Creation */
+[data-theme="creation"] {
+  --th-header:      #1A5C30;
+  --th-mobile-menu: #144A26;
+  --th-logo:        #FFF8E8;
+  --th-nav:         #D8F0E0;
+  --th-bg:          #F4FBF0;
+  --th-accent:      #1E9E52;
+  --th-active-bg:   rgba(30,158,82,0.12);
+  --th-border:      rgba(30,120,60,0.18);
+  --th-body-bg:     #EDF7ED;
+  --th-card:        #FFFFFF;
+  --th-text:        #112810;
+  --th-muted:       #4A7A52;
+  --th-gold:        #C89010;
+}
+
+/* ── Breastplate of Aharon — Shemoth 28:17-20 ───────────── */
+
+/* Row 1 — Odem (Carnelian) */
+[data-theme="odem"] {
+  --th-header:      #8B2020;
+  --th-mobile-menu: #6A1818;
+  --th-logo:        #F8E4B0;
+  --th-nav:         #F8D4C0;
+  --th-accent:      #F8D4C0;
+  --th-active-bg:   rgba(248,212,176,0.15);
+  --th-border:      rgba(248,200,160,0.25);
+  --th-body-bg:     #FFF5F0;
+  --th-card:        #FFFFFF;
+  --th-text:        #2A0800;
+  --th-muted:       #8B4A30;
+  --th-gold:        #B8860B;
+}
+
+/* Row 1 — Pitdah (Topaz/Chrysolite) */
+[data-theme="pitdah"] {
+  --th-header:      #7A5C08;
+  --th-mobile-menu: #5E4606;
+  --th-logo:        #FFF8D8;
+  --th-nav:         #FFF0C0;
+  --th-accent:      #FFF0C0;
+  --th-active-bg:   rgba(255,240,192,0.15);
+  --th-border:      rgba(255,240,192,0.25);
+  --th-body-bg:     #FFFBF0;
+  --th-card:        #FFFFFF;
+  --th-text:        #1A1000;
+  --th-muted:       #6B5020;
+  --th-gold:        #B8860B;
+}
+
+/* Row 1 — Bareqeth (Emerald/Smaragd) */
+[data-theme="bareqeth"] {
+  --th-header:      #0D4A2A;
+  --th-mobile-menu: #0A3520;
+  --th-logo:        #E8C46A;
+  --th-nav:         #A8E8C0;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.12);
+  --th-border:      rgba(168,232,192,0.2);
+  --th-body-bg:     #F0FAF5;
+  --th-card:        #FFFFFF;
+  --th-text:        #0A2A18;
+  --th-muted:       #3A7A50;
+  --th-gold:        #B8860B;
+}
+
+/* Row 2 — Nophek (Carbuncle/Garnet) */
+[data-theme="nophek"] {
+  --th-header:      #6B1A3A;
+  --th-mobile-menu: #501030;
+  --th-logo:        #F8D0E0;
+  --th-nav:         #F0C0D0;
+  --th-accent:      #F8D0E0;
+  --th-active-bg:   rgba(248,208,224,0.15);
+  --th-border:      rgba(240,192,208,0.2);
+  --th-body-bg:     #FFF0F5;
+  --th-card:        #FFFFFF;
+  --th-text:        #200A18;
+  --th-muted:       #8B4060;
+  --th-gold:        #B8860B;
+}
+
+/* Row 2 — Sappir (Sapphire/Lapis) */
+[data-theme="sappir"] {
+  --th-header:      #0C2A6E;
+  --th-mobile-menu: #071D50;
+  --th-logo:        #E8C46A;
+  --th-nav:         #B8D4F8;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.12);
+  --th-border:      rgba(184,212,248,0.2);
+  --th-body-bg:     #F0F5FF;
+  --th-card:        #FFFFFF;
+  --th-text:        #0C1A40;
+  --th-muted:       #4A6A9A;
+  --th-gold:        #B8860B;
+}
+
+/* Row 2 — Yahalom (Diamond) — brilliant, near-dark with light accents */
+[data-theme="yahalom"] {
+  --th-header:      #2A2A3A;
+  --th-mobile-menu: #1A1A28;
+  --th-logo:        #F0F0FF;
+  --th-nav:         #D8D8F0;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.12);
+  --th-border:      rgba(216,216,240,0.2);
+  --th-body-bg:     #F8F8FF;
+  --th-card:        #FFFFFF;
+  --th-text:        #0A0A20;
+  --th-muted:       #6A6A9A;
+  --th-gold:        #B8860B;
+}
+
+/* Row 3 — Leshem (Jacinth/Ligure — amber-orange) */
+[data-theme="leshem"] {
+  --th-header:      #7A4010;
+  --th-mobile-menu: #5E3008;
+  --th-logo:        #F8E8B0;
+  --th-nav:         #F8D8A0;
+  --th-accent:      #F8E8B0;
+  --th-active-bg:   rgba(248,232,176,0.15);
+  --th-border:      rgba(248,216,160,0.25);
+  --th-body-bg:     #FFF8F0;
+  --th-card:        #FFFFFF;
+  --th-text:        #1A0800;
+  --th-muted:       #8B5A30;
+  --th-gold:        #B8860B;
+}
+
+/* Row 3 — Shebo (Agate — layered blue-grey) */
+[data-theme="shebo"] {
+  --th-header:      #3A4A5A;
+  --th-mobile-menu: #2A3848;
+  --th-logo:        #E8D8C0;
+  --th-nav:         #C8D8E8;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.12);
+  --th-border:      rgba(200,216,232,0.25);
+  --th-body-bg:     #F5F7F8;
+  --th-card:        #FFFFFF;
+  --th-text:        #1A2030;
+  --th-muted:       #5A6A7A;
+  --th-gold:        #B8860B;
+}
+
+/* Row 3 — Achlamah (Amethyst) */
+[data-theme="achlamah"] {
+  --th-header:      #3D1A6E;
+  --th-mobile-menu: #2A1050;
+  --th-logo:        #E8C46A;
+  --th-nav:         #D4B8F8;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.12);
+  --th-border:      rgba(212,184,248,0.2);
+  --th-body-bg:     #F8F0FF;
+  --th-card:        #FFFFFF;
+  --th-text:        #1A0A40;
+  --th-muted:       #7A50A0;
+  --th-gold:        #B8860B;
+}
+
+/* Row 4 — Tarshish (Beryl/Aquamarine) */
+[data-theme="tarshish"] {
+  --th-header:      #0A5068;
+  --th-mobile-menu: #083C50;
+  --th-logo:        #E8C46A;
+  --th-nav:         #A0D8E8;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.12);
+  --th-border:      rgba(160,216,232,0.2);
+  --th-body-bg:     #F0F8FA;
+  --th-card:        #FFFFFF;
+  --th-text:        #081820;
+  --th-muted:       #3A7A8A;
+  --th-gold:        #B8860B;
+}
+
+/* Row 4 — Shoham (Onyx — dark) */
+[data-theme="shoham"] {
+  --th-header:      #1A1825;
+  --th-mobile-menu: #100E18;
+  --th-logo:        #E8C46A;
+  --th-nav:         #C0B8D8;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.1);
+  --th-border:      rgba(192,184,216,0.15);
+  --th-body-bg:     #0F0E18;
+  --th-card:        #1E1C2A;
+  --th-text:        #E0D8F0;
+  --th-muted:       #8070A8;
+  --th-gold:        #E8C46A;
+}
+
+/* Row 4 — Yashepheh (Jasper) */
+[data-theme="yashepheh"] {
+  --th-header:      #5C1A1A;
+  --th-mobile-menu: #3D1010;
+  --th-logo:        #E8C46A;
+  --th-nav:         #F5ECD9;
+  --th-accent:      #E8C46A;
+  --th-active-bg:   rgba(232,196,106,0.12);
+  --th-border:      rgba(232,196,106,0.2);
+  --th-body-bg:     #FAF5E4;
+  --th-card:        #FFFFFF;
+  --th-text:        #1A0A00;
+  --th-muted:       #8B6A50;
+  --th-gold:        #B8860B;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+body {
+  background-color: var(--th-body-bg);
+  color: var(--th-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header { transition: background-color 0.3s ease; }
+
+/* ============================================================
+   SCRIPTURE TEXT
+   ============================================================ */
+
+.verse-text {
+  font-family: Georgia, Cambria, serif;
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--th-text);
+}
+
+.restored-name {
+  color: var(--th-gold);
+  font-weight: 600;
+  cursor: help;
+  border-bottom: 1px dashed var(--th-gold);
+  text-decoration: none;
+}
+
+/* ============================================================
+   CARD UTILITY
+   ============================================================ */
+
+.theme-card {
+  background: var(--th-card);
+  border: 1px solid var(--th-border);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.06),
+    0 3px 10px rgba(0,0,0,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  transition: border-color 0.15s ease, background-color 0.3s ease, box-shadow 0.15s ease;
+}
+
+.theme-card:hover {
+  border-color: var(--th-accent);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.08),
+    0 6px 20px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+}

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hazon 1 — The Vision</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;overflow:hidden;font-family:Georgia,serif;color:#fff;width:100vw;height:100vh}
+#glc,#c2d{position:absolute;top:0;left:0;width:100%;height:100%}
+#c2d{pointer-events:none}
+.bar{position:absolute;left:0;width:100%;background:#000;z-index:10}
+#bt{top:0;height:12vh}#bb{bottom:0;height:12vh}
+#cap{position:absolute;bottom:14vh;left:0;width:100%;text-align:center;z-index:20;padding:0 8%;pointer-events:none;transition:opacity 1.2s}
+#cap-loc{font-size:clamp(.55rem,1.1vw,.75rem);letter-spacing:.32em;text-transform:uppercase;color:rgba(255,215,0,.42);margin-bottom:.55rem}
+#cap-txt{font-size:clamp(.85rem,1.7vw,1.22rem);line-height:1.9;color:rgba(255,255,255,.8);text-shadow:0 1px 18px rgba(0,0,0,.95)}
+#cap-txt em{color:#ffd060;font-style:normal}
+.paleo{font-size:1.3em;color:#ffd700;letter-spacing:.15em}
+#prog{position:absolute;bottom:12vh;left:0;height:2px;background:rgba(255,215,0,.32);z-index:25}
+#btns{position:absolute;bottom:3.5vh;right:3vw;z-index:30;display:flex;gap:.6rem}
+.btn{background:transparent;border:1px solid rgba(255,215,0,.28);color:rgba(255,215,0,.45);padding:.3rem .9rem;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:999px;font-family:Georgia,serif;transition:all .2s}
+.btn:hover{border-color:#ffd700;color:#ffd700}
+#flash{position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;opacity:0;z-index:50;pointer-events:none}
+#err{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(255,100,100,.8);text-align:center;z-index:100;font-size:14px}
+</style>
+</head>
+<body>
+<canvas id="glc"></canvas>
+<canvas id="c2d"></canvas>
+<div class="bar" id="bt"></div>
+<div class="bar" id="bb"></div>
+<div id="cap"><div id="cap-loc"></div><div id="cap-txt"></div></div>
+<div id="flash"></div>
+<div id="prog"></div>
+<div id="btns">
+  <button class="btn" onclick="startFilm()">&#x21BA; Replay</button>
+  <button class="btn" id="pbtn" onclick="togglePause()">&#9646;&#9646; Pause</button>
+</div>
+<div id="err"></div>
+<script>
+
+const _VS = `attribute vec2 aPos;void main(){gl_Position=vec4(aPos,0.0,1.0);}`;
+const _FS = {
+  fire: `precision highp float;
+uniform float uTime;uniform vec2 uRes;uniform float uProgress;
+float hash(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+19.19);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+float fbm(vec2 p){float v=0.0,a=0.5;for(int i=0;i<7;i++){v+=a*noise(p);p=p*2.1+vec2(1.7,9.2);a*=0.5;}return v;}
+float eyeShape(vec2 uv,vec2 c,float w,float h){vec2 p=(uv-c)/vec2(w,h);return 1.0-smoothstep(0.82,1.06,abs(p.x)+p.y*p.y*1.35);}
+vec3 fireAt(vec2 uv,vec2 ec,float ew,float eh,float side){
+  float mask=eyeShape(uv,ec,ew,eh);
+  vec2 eyeUV=(uv-ec)/vec2(ew,eh);
+  vec2 fp=uv; fp.y=1.0-fp.y;
+  fp.x+=0.025*sin(fp.y*14.0+uTime*3.0+side*2.8);
+  fp.y+=uTime*0.55+side*0.18;
+  float f=fbm(fp*5.5); f=clamp(f*2.0-0.45,0.0,1.0);
+  float fade=clamp((1.0-abs(eyeUV.x)*1.1)*(1.0-abs(eyeUV.y)*1.3)*2.5,0.0,1.0);
+  f*=fade;
+  vec3 fc=vec3(0.0);
+  fc=mix(fc,vec3(0.7,0.0,0.0),smoothstep(0.0,0.25,f));
+  fc=mix(fc,vec3(1.0,0.35,0.0),smoothstep(0.2,0.55,f));
+  fc=mix(fc,vec3(1.0,0.78,0.1),smoothstep(0.5,0.8,f));
+  fc=mix(fc,vec3(1.0,1.0,0.85),smoothstep(0.75,1.0,f));
+  return fc*mask;
+}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes; uv.y=1.0-uv.y;
+  float ew=0.133,eh=0.088;
+  vec2 ecL=vec2(0.285,0.42),ecR=vec2(0.715,0.42);
+  vec3 col=vec3(0.04,0.0,0.0);
+  col+=fireAt(uv,ecL,ew,eh,0.0);
+  col+=fireAt(uv,ecR,ew,eh,1.0);
+  float gL=pow(max(0.0,1.0-length(uv-ecL)/0.3),2.5)*0.55*uProgress;
+  float gR=pow(max(0.0,1.0-length(uv-ecR)/0.3),2.5)*0.55*uProgress;
+  col+=vec3(1.0,0.32,0.0)*(gL+gR);
+  float g=(hash(uv+fract(uTime*0.313))-0.5)*0.055; col+=g;
+  vec2 vg=uv*(1.0-uv); col*=pow(vg.x*vg.y*13.0,0.38);
+  float luma=dot(col,vec3(0.299,0.587,0.114));
+  col=mix(vec3(luma*0.18,luma*0.08,luma*0.14),col,0.85);
+  gl_FragColor=vec4(col,1.0);
+}`,
+  water: `precision highp float;
+uniform float uTime;uniform vec2 uRes;uniform float uProgress;
+float hash(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+19.19);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+float fbm(vec2 p){float v=0.0,a=0.5;for(int i=0;i<5;i++){v+=a*noise(p);p=p*2.0+vec2(5.2,1.3);a*=0.5;}return v;}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes; uv.y=1.0-uv.y;
+  vec2 c=vec2(0.5,0.56);
+  float r=length((uv-c)*vec2(1.0,2.1));
+  float wave=0.0;
+  wave+=sin(r*20.0-uTime*3.0+0.0)*exp(-r*2.0)*1.0;
+  wave+=sin(r*27.0-uTime*3.5+0.9)*exp(-r*2.4)*0.6;
+  wave+=sin(r*34.0-uTime*4.0+1.8)*exp(-r*2.8)*0.4;
+  wave+=sin(r*41.0-uTime*4.5+2.7)*exp(-r*3.2)*0.28;
+  wave+=sin(r*48.0-uTime*5.0+3.6)*exp(-r*3.6)*0.18;
+  wave+=sin(r*55.0-uTime*5.5+4.5)*exp(-r*4.0)*0.12;
+  float dn=fbm(uv*6.0+vec2(uTime*0.25,-uTime*0.18))*0.04;
+  wave=(wave+dn)*uProgress;
+  vec3 deep=vec3(0.005,0.025,0.09),mid=vec3(0.03,0.18,0.48),crest=vec3(0.45,0.78,1.0);
+  float wn=wave*1.8+0.5;
+  vec3 col=mix(deep,mid,smoothstep(0.0,1.0,wn*0.7));
+  col=mix(col,crest,smoothstep(0.7,1.0,wn));
+  float caus=noise(uv*18.0+vec2(uTime*0.4,-uTime*0.3))*noise(uv*14.0+vec2(-uTime*0.3,uTime*0.2));
+  col+=vec3(0.1,0.35,0.7)*caus*0.18*uProgress;
+  float sky=exp(-uv.y*4.0)*0.4*uProgress;
+  col+=vec3(0.08,0.2,0.45)*sky;
+  float g=(hash(uv+fract(uTime*0.37))-0.5)*0.04; col+=g;
+  vec2 vg=uv*(1.0-uv); col*=pow(vg.x*vg.y*14.0,0.35);
+  gl_FragColor=vec4(col,1.0);
+}`,
+  sun: `precision highp float;
+uniform float uTime;uniform vec2 uRes;uniform float uProgress;
+float hash(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+19.19);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes; uv.y=1.0-uv.y;
+  vec2 center=vec2(0.5,0.41);
+  vec2 dir=uv-center;
+  float r=length(dir);
+  float angle=atan(dir.y,dir.x);
+  float a01=angle/6.28318+0.5;
+  float rays=0.0;
+  rays+=noise(vec2(a01*6.0+uTime*0.04,0.0+uTime*0.01))*1.0;
+  rays+=noise(vec2(a01*11.0+uTime*0.065,8.3+uTime*0.01))*0.62;
+  rays+=noise(vec2(a01*16.0+uTime*0.09,16.6+uTime*0.01))*0.38;
+  rays+=noise(vec2(a01*21.0+uTime*0.115,24.9+uTime*0.01))*0.24;
+  rays+=noise(vec2(a01*26.0+uTime*0.14,33.2+uTime*0.01))*0.15;
+  rays=pow(rays*0.8,2.2);
+  float godRay=rays*exp(-r*(3.5-uProgress*2.8))*uProgress;
+  float core=pow(exp(-r*(9.0-uProgress*7.0)),0.65)*uProgress*1.2;
+  float halo=exp(-r*(2.0-uProgress*1.2))*0.4*uProgress;
+  vec3 col=vec3(0.0);
+  col+=vec3(1.0,0.98,0.92)*core*4.0;
+  col+=vec3(1.0,0.88,0.45)*godRay*2.0;
+  col+=vec3(1.0,0.7,0.2)*halo;
+  float streak=exp(-pow(dir.y*uRes.y/uRes.x,2.0)*60.0)*exp(-r*1.8)*uProgress*0.5;
+  col+=vec3(1.0,0.95,0.8)*streak;
+  float ca=smoothstep(0.1,0.6,r)*uProgress;
+  col.r+=exp(-r*1.5)*0.12*ca; col.b-=exp(-r*2.0)*0.07*ca;
+  vec3 bg=vec3(0.02,0.015,0.004)*uProgress; col=max(bg,col);
+  float g=(hash(uv+fract(uTime*0.413))-0.5)*0.032; col+=g;
+  vec2 vg=uv*(1.0-uv); col*=pow(vg.x*vg.y*13.0,0.28);
+  gl_FragColor=vec4(col,1.0);
+}`,
+  stars: `precision highp float;
+uniform float uTime;uniform vec2 uRes;uniform float uProgress;
+uniform vec3 uFog;uniform float uFogAmt;
+float hash(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+19.19);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+float star(vec2 uv,float grid){
+  vec2 g=floor(uv*grid),f=fract(uv*grid);
+  float n=hash(g); if(n<0.955)return 0.0;
+  float bright=(n-0.955)/0.045;
+  vec2 pos=vec2(hash(g+0.1),hash(g+0.2));
+  float d=length(f-pos);
+  float twinkle=0.65+0.35*sin(uTime*(0.8+n*6.0)+n*94.0);
+  return bright*twinkle*smoothstep(0.07,0.0,d)*2.5;
+}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes; uv.y=1.0-uv.y;
+  float s=star(uv+vec2(uTime*0.0015,0.0),55.0)
+         +star(uv*1.4+vec2(-uTime*0.002,0.0),70.0)*0.55
+         +star(uv*0.65+vec2(uTime*0.001,0.0),38.0)*1.6
+         +star(uv*2.1+vec2(uTime*0.003,-uTime*0.001),95.0)*0.3;
+  vec3 col=mix(vec3(0.0,0.002,0.012),vec3(0.0,0.006,0.025),uv.y*0.4+0.3);
+  col+=vec3(0.88,0.92,1.0)*s*uProgress;
+  float nbA=uv.x*1.2+uv.y*0.4;
+  float nb=noise(vec2(nbA*3.0+uTime*0.005,uv.y*4.0))*noise(vec2(nbA*7.0-uTime*0.003,uv.y*8.0));
+  col+=uFog*nb*uFogAmt*uProgress*0.6;
+  float horiz=exp(-(uv.y-0.08)*6.0);
+  col+=uFog*horiz*uFogAmt*0.35;
+  float g=(hash(uv+fract(uTime*0.37))-0.5)*0.03; col+=g;
+  vec2 vg=uv*(1.0-uv); col*=pow(vg.x*vg.y*14.0,0.32);
+  gl_FragColor=vec4(col,1.0);
+}`,
+  base: `precision highp float;
+uniform float uTime;uniform vec2 uRes;uniform float uProgress;uniform vec3 uBg;
+float hash(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+19.19);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes; uv.y=1.0-uv.y;
+  float n=noise(uv*4.0+uTime*0.02)*noise(uv*7.0-uTime*0.015);
+  vec3 col=uBg+uBg*n*0.5*uProgress;
+  float r=length(uv-vec2(0.5,0.44));
+  col+=uBg*exp(-r*3.5)*0.6*uProgress;
+  float g=(hash(uv+fract(uTime*0.37))-0.5)*0.048; col+=g;
+  vec2 vg=uv*(1.0-uv); col*=pow(vg.x*vg.y*13.0,0.36);
+  gl_FragColor=vec4(col,1.0);
+}`
+};
+
+// ── WebGL setup ───────────────────────────────────────────────────────────────
+const glc = document.getElementById('glc');
+const c2 = document.getElementById('c2d');
+const X = c2.getContext('2d');
+let W, H, gl, PROGS = {}, quad;
+
+function resize() {
+  W = glc.width = c2.width = window.innerWidth;
+  H = glc.height = c2.height = window.innerHeight;
+  if (gl) gl.viewport(0, 0, W, H);
+}
+resize();
+window.addEventListener('resize', resize);
+
+function initGL() {
+  gl = glc.getContext('webgl') || glc.getContext('experimental-webgl');
+  if (!gl) { document.getElementById('err').style.display='block'; document.getElementById('err').textContent='WebGL not available'; return false; }
+
+  function mkShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      const e = gl.getShaderInfoLog(s);
+      console.error('Shader error:', e);
+      document.getElementById('err').style.display='block';
+      document.getElementById('err').textContent='Shader error: '+e.substring(0,120);
+      return null;
+    }
+    return s;
+  }
+
+  function mkProg(fSrc) {
+    const vs = mkShader(gl.VERTEX_SHADER, _VS);
+    const fs = mkShader(gl.FRAGMENT_SHADER, fSrc);
+    if (!vs || !fs) return null;
+    const p = gl.createProgram();
+    gl.attachShader(p, vs);
+    gl.attachShader(p, fs);
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+      console.error('Link error:', gl.getProgramInfoLog(p));
+      return null;
+    }
+    return p;
+  }
+
+  for (const k in _FS) {
+    PROGS[k] = mkProg(_FS[k]);
+    if (!PROGS[k]) { console.warn('Failed to compile shader:', k); }
+  }
+
+  quad = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  return true;
+}
+
+const glOK = initGL();
+
+function glDraw(key, uniforms) {
+  if (!glOK || !PROGS[key]) return;
+  const prog = PROGS[key];
+  gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  const ap = gl.getAttribLocation(prog, 'aPos');
+  gl.enableVertexAttribArray(ap);
+  gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
+  const loc = n => gl.getUniformLocation(prog, n);
+  const f1 = (n,v) => { const l=loc(n); if(l) gl.uniform1f(l,v); };
+  const f2 = (n,a,b) => { const l=loc(n); if(l) gl.uniform2f(l,a,b); };
+  const f3 = (n,a,b,c) => { const l=loc(n); if(l) gl.uniform3f(l,a,b,c); };
+  f1('uTime', gT);
+  f2('uRes', W, H);
+  f1('uProgress', curP);
+  if (uniforms) uniforms(f1, f2, f3);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+}
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let gT = 0, paused = false, curP = 1;
+let sceneId = null, sceneStart = 0, sceneDur = 1;
+let lampCount = 0, lampTimer = null;
+let timers = [], progInt = null, lastTS = 0;
+const TOTAL = 116000;
+
+function setScene(id, dur) { sceneId=id; sceneStart=gT; sceneDur=dur; }
+function sceneP() { return Math.min(1, (gT-sceneStart)/sceneDur); }
+
+function setCaption(loc, html) {
+  document.getElementById('cap-loc').textContent = loc;
+  document.getElementById('cap-txt').innerHTML = html;
+  document.getElementById('cap').style.opacity = 1;
+}
+function clrCaption() { document.getElementById('cap').style.opacity = 0; }
+
+function doFlash(ms) {
+  const el = document.getElementById('flash');
+  el.style.transition = 'opacity '+(ms/4)+'ms'; el.style.opacity = 1;
+  setTimeout(() => { el.style.transition = 'opacity '+(ms*2.5)+'ms'; el.style.opacity = 0; }, ms/4);
+}
+
+function lightLamps(n) {
+  lampCount = 0; if(lampTimer) clearInterval(lampTimer);
+  lampTimer = setInterval(() => { lampCount = Math.min(lampCount+1, n||7); if(lampCount>=(n||7)) clearInterval(lampTimer); }, 620);
+}
+
+// ── 2D helpers ────────────────────────────────────────────────────────────────
+function drawIsland() {
+  const sea = X.createLinearGradient(0,H*.78,0,H);
+  sea.addColorStop(0,'rgba(8,18,36,.55)'); sea.addColorStop(1,'rgba(1,4,12,.92)');
+  X.fillStyle=sea; X.fillRect(0,H*.78,W,H*.22);
+  X.strokeStyle='rgba(255,210,80,.05)'; X.lineWidth=1;
+  for(let i=0;i<6;i++){const ry=H*.81+i*H*.025;X.beginPath();X.moveTo(W*.28+Math.sin(gT+i)*W*.04,ry);X.bezierCurveTo(W*.42,ry+2,W*.58,ry-2,W*.73+Math.sin(gT*1.4+i)*W*.03,ry);X.stroke();}
+  X.fillStyle='rgba(2,2,1,.98)';
+  X.beginPath();X.moveTo(W*.1,H*.94);X.bezierCurveTo(W*.18,H*.7,W*.3,H*.58,W*.46,H*.63);X.bezierCurveTo(W*.55,H*.66,W*.62,H*.68,W*.72,H*.74);X.bezierCurveTo(W*.8,H*.8,W*.86,H*.84,W*.92,H*.94);X.lineTo(W,H*.94);X.lineTo(W,H);X.lineTo(0,H);X.closePath();X.fill();
+}
+
+function drawFig(lamps, figA) {
+  const n=Math.min(lamps,7), sp=W/8.6, sx=W/2-sp*(n-1)/2;
+  for(let i=0;i<n;i++){
+    const lx=sx+i*sp, ly=H*.77;
+    const gg=X.createRadialGradient(lx,ly-62,0,lx,ly-62,58);
+    gg.addColorStop(0,'rgba(255,205,55,.65)');gg.addColorStop(1,'rgba(255,120,0,0)');
+    X.fillStyle=gg;X.beginPath();X.arc(lx,ly-62,58,0,Math.PI*2);X.fill();
+    X.strokeStyle='rgba(255,195,50,.72)';X.lineWidth=3;
+    X.beginPath();X.moveTo(lx,ly);X.lineTo(lx,ly-80);X.stroke();
+    X.beginPath();X.moveTo(lx-14,ly);X.lineTo(lx+14,ly);X.stroke();
+    X.beginPath();X.moveTo(lx-8,ly-80);X.lineTo(lx+8,ly-80);X.stroke();
+    const fl=1+.14*Math.sin(gT*4.2+i*1.8);
+    X.fillStyle='rgba(255,225,65,.96)';X.beginPath();X.ellipse(lx,ly-86,5*fl,10*fl,0,0,Math.PI*2);X.fill();
+    X.fillStyle='rgba(255,255,200,.75)';X.beginPath();X.ellipse(lx,ly-91,2.5,5,0,0,Math.PI*2);X.fill();
+  }
+  if(figA>0&&n>=3){
+    const cx=W/2,top=H*.12,bot=H*.78,fw=H*.18;
+    const aura=X.createRadialGradient(cx,H*.44,0,cx,H*.44,fw*2);
+    aura.addColorStop(0,`rgba(255,225,140,${figA*.32})`);aura.addColorStop(1,'rgba(255,195,40,0)');
+    X.fillStyle=aura;X.beginPath();X.arc(cx,H*.44,fw*2,0,Math.PI*2);X.fill();
+    const rg=X.createLinearGradient(cx,top,cx,bot);
+    rg.addColorStop(0,`rgba(228,234,255,${figA*.82})`);rg.addColorStop(.5,`rgba(210,218,255,${figA*.65})`);rg.addColorStop(1,`rgba(200,210,255,${figA*.28})`);
+    X.fillStyle=rg;
+    X.beginPath();X.moveTo(cx-fw*.3,top+fw*.25);X.quadraticCurveTo(cx-fw*.48,H*.5,cx-fw*.62,bot);X.quadraticCurveTo(cx,bot+fw*.04,cx+fw*.62,bot);X.quadraticCurveTo(cx+fw*.48,H*.5,cx+fw*.3,top+fw*.25);X.closePath();X.fill();
+    const sy=H*.38,sg=X.createLinearGradient(cx-fw*.44,sy,cx+fw*.44,sy);
+    sg.addColorStop(0,'rgba(255,195,40,0)');sg.addColorStop(.2,`rgba(255,212,0,${figA*.9})`);sg.addColorStop(.8,`rgba(255,212,0,${figA*.9})`);sg.addColorStop(1,'rgba(255,195,40,0)');
+    X.fillStyle=sg;X.beginPath();X.ellipse(cx,sy,fw*.44,fw*.024,0,0,Math.PI*2);X.fill();
+    const hy=top+fw*.18,hg=X.createRadialGradient(cx,hy,0,cx,hy,fw*.48);
+    hg.addColorStop(0,`rgba(238,243,255,${figA*.9})`);hg.addColorStop(.4,`rgba(220,230,255,${figA*.6})`);hg.addColorStop(1,'rgba(205,220,255,0)');
+    X.fillStyle=hg;X.beginPath();X.arc(cx,hy,fw*.48,0,Math.PI*2);X.fill();
+    X.fillStyle=`rgba(238,242,255,${figA*.86})`;X.beginPath();X.arc(cx,hy,fw*.1,0,Math.PI*2);X.fill();
+  }
+}
+
+function drawWhiteHair(p) {
+  const cx=W/2,cy=H*.31,r=H*.24*p;
+  const wg=X.createRadialGradient(cx,cy,0,cx,cy,r);
+  wg.addColorStop(0,'rgba(255,255,255,.98)');wg.addColorStop(.18,'rgba(240,246,255,.88)');wg.addColorStop(.55,'rgba(220,232,255,.5)');wg.addColorStop(1,'rgba(205,220,255,0)');
+  X.fillStyle=wg;X.beginPath();X.arc(cx,cy,r,0,Math.PI*2);X.fill();
+  for(let i=0;i<14;i++){const a=(i/14)*Math.PI*2+gT*.28,len=r*(1+.28*Math.sin(gT*2.1+i));X.strokeStyle=`rgba(235,245,255,${.12+.08*Math.sin(gT*1.5+i)})`;X.lineWidth=2;X.beginPath();X.moveTo(cx+Math.cos(a)*r*.25,cy+Math.sin(a)*r*.25);X.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);X.stroke();}
+  const fw=H*.18;
+  X.fillStyle=`rgba(238,242,255,${p*.78})`;X.beginPath();X.arc(cx,cy,fw*.1,0,Math.PI*2);X.fill();
+  const rg=X.createLinearGradient(cx,cy+fw*.1,cx,H*.82);
+  rg.addColorStop(0,`rgba(228,234,255,${p*.68})`);rg.addColorStop(1,`rgba(210,218,255,${p*.2})`);
+  X.fillStyle=rg;
+  X.beginPath();X.moveTo(cx-fw*.3,cy+fw*.1);X.quadraticCurveTo(cx-fw*.5,H*.6,cx-fw*.62,H*.82);X.quadraticCurveTo(cx,H*.86,cx+fw*.62,H*.82);X.quadraticCurveTo(cx+fw*.5,H*.6,cx+fw*.3,cy+fw*.1);X.closePath();X.fill();
+}
+
+function drawFeet(p) {
+  const cx=W/2,fy=H*.7,fw=W*.1,fh=H*.22;
+  for(let s=-1;s<=1;s+=2){
+    const fx=cx+s*W*.105;
+    const hg=X.createRadialGradient(fx,fy+fh*.65,0,fx,fy+fh*.65,fw*2.8);
+    hg.addColorStop(0,`rgba(255,155,25,${.42*p})`);hg.addColorStop(1,'rgba(190,75,0,0)');
+    X.fillStyle=hg;X.beginPath();X.arc(fx,fy+fh*.65,fw*2.8,0,Math.PI*2);X.fill();
+    const fg=X.createLinearGradient(fx-fw*.5,fy,fx+fw*.5,fy+fh);
+    fg.addColorStop(0,`rgba(195,125,45,${p*.88})`);fg.addColorStop(.35,`rgba(215,155,55,${p*.92})`);fg.addColorStop(.7,`rgba(180,108,35,${p*.82})`);fg.addColorStop(1,`rgba(155,88,25,${p*.65})`);
+    X.fillStyle=fg;
+    X.beginPath();X.ellipse(fx,fy,fw*.4,fw*.14,0,0,Math.PI*2);X.fill();
+    X.beginPath();X.roundRect(fx-fw*.38,fy,fw*.76,fh,fw*.14);X.fill();
+    X.fillStyle=`rgba(255,225,120,${p*.38})`;X.beginPath();X.ellipse(fx-fw*.1,fy+fh*.2,fw*.14,fh*.055,-.28,0,Math.PI*2);X.fill();
+    for(let i=0;i<5;i++){const hx=fx+(i/5-.5)*fw*1.5;X.strokeStyle=`rgba(255,145,45,${(.07+.04*Math.sin(gT*6.5+i+s*2))*p})`;X.lineWidth=1.5;X.beginPath();X.moveTo(hx,fy);const wv=hx+Math.sin(gT*4+i)*8;X.bezierCurveTo(wv,fy-H*.045,wv+5,fy-H*.09,hx+Math.sin(gT*3+i)*5,fy-H*.135);X.stroke();}
+  }
+}
+
+function drawStar6(x,y,r,col){X.fillStyle=col;X.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6,ir=r*.4;X.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);X.lineTo(x+Math.cos(a+Math.PI/6)*ir,y+Math.sin(a+Math.PI/6)*ir);}X.closePath();X.fill();}
+
+function drawStarsHand(p) {
+  const cx=W/2,cy=H*.44,ax=W*.78,ay=H*.52;
+  X.save();X.globalAlpha=p*.82;
+  X.strokeStyle='rgba(218,226,255,.72)';X.lineWidth=W*.038;X.lineCap='round';
+  X.beginPath();X.moveTo(cx+W*.1,cy+H*.07);X.quadraticCurveTo(W*.68,cy+H*.04,ax,ay);X.stroke();
+  const hg=X.createRadialGradient(ax,ay,0,ax,ay,W*.06);
+  hg.addColorStop(0,'rgba(228,234,255,.78)');hg.addColorStop(1,'rgba(208,218,255,0)');
+  X.fillStyle=hg;X.beginPath();X.arc(ax,ay,W*.055,0,Math.PI*2);X.fill();
+  const sp=[[-0.02,-0.15],[0.07,-0.11],[0.13,-0.025],[0.07,0.075],[-0.02,0.105],[-0.115,0.065],[-0.125,-0.042]];
+  for(let i=0;i<7;i++){
+    if(i>=Math.ceil(p*7))continue;
+    const sx=ax+sp[i][0]*W*1.1,sy=ay+sp[i][1]*H*1.4;
+    const sg=X.createRadialGradient(sx,sy,0,sx,sy,W*.042);
+    sg.addColorStop(0,'rgba(255,238,95,.95)');sg.addColorStop(.3,'rgba(255,198,45,.7)');sg.addColorStop(1,'rgba(255,145,0,0)');
+    X.fillStyle=sg;X.beginPath();X.arc(sx,sy,W*.042,0,Math.PI*2);X.fill();
+    drawStar6(sx,sy,W*.016,`rgba(255,248,175,${.88+.12*Math.sin(gT*3+i)})`);
+  }
+  const sa=Math.max(0,p-.5)/.5;
+  if(sa>0){
+    X.globalAlpha=sa*.72;
+    const grd=X.createLinearGradient(W*.04,cy,cx-W*.14,cy);
+    grd.addColorStop(0,'rgba(195,212,255,0)');grd.addColorStop(.5,'rgba(215,225,255,.7)');grd.addColorStop(1,'rgba(255,255,255,.88)');
+    X.strokeStyle=grd;X.lineWidth=4;X.lineCap='round';
+    X.beginPath();X.moveTo(W*.04,cy);X.lineTo(cx-W*.14,cy);X.stroke();
+  }
+  X.restore();
+}
+
+function drawFall(p) {
+  const cx=W*.5,cy=H*.72;
+  X.fillStyle=`rgba(212,222,255,${p*.52})`;
+  X.beginPath();X.ellipse(cx+W*.14,H*.75,W*.034,H*.014,0,0,Math.PI*2);X.fill();
+  X.beginPath();X.ellipse(cx+W*.08,H*.77,W*.034,H*.014,0,0,Math.PI*2);X.fill();
+  const rh=X.createLinearGradient(cx,H*.54,cx,H*.78);
+  rh.addColorStop(0,'rgba(210,218,255,0)');rh.addColorStop(.5,`rgba(220,226,255,${p*.42})`);rh.addColorStop(1,`rgba(210,218,255,${p*.22})`);
+  X.fillStyle=rh;X.beginPath();X.ellipse(cx+W*.11,H*.65,W*.088,H*.21,-.18,0,Math.PI*2);X.fill();
+  X.fillStyle=`rgba(32,28,24,${p*.9})`;
+  X.beginPath();X.ellipse(cx-W*.08,cy,W*.115,H*.027,0,0,Math.PI*2);X.fill();
+  X.beginPath();X.arc(cx-W*.22,cy-H*.012,W*.022,0,Math.PI*2);X.fill();
+  X.strokeStyle=`rgba(32,28,24,${p*.85})`;X.lineWidth=W*.015;X.lineCap='round';
+  X.beginPath();X.moveTo(cx-W*.1,cy);X.lineTo(cx+W*.04,cy-H*.02);X.stroke();
+  X.beginPath();X.moveTo(cx-W*.1,cy+H*.012);X.lineTo(cx+W*.04,cy+H*.008);X.stroke();
+}
+
+function drawHand(p) {
+  const cx=W/2,hy=H*.2;
+  const hgl=X.createRadialGradient(cx,hy+H*.14,0,cx,hy+H*.14,H*.42);
+  hgl.addColorStop(0,`rgba(255,212,115,${.28*p})`);hgl.addColorStop(1,'rgba(255,175,0,0)');
+  X.fillStyle=hgl;X.beginPath();X.arc(cx,hy+H*.14,H*.42,0,Math.PI*2);X.fill();
+  X.save();X.globalAlpha=p*.8;
+  const hw=W*.1,hh=H*.12;
+  X.fillStyle='rgba(222,230,255,.76)';
+  X.beginPath();X.roundRect(cx-hw*.6,hy,hw*1.2,hh*.65,hw*.15);X.fill();
+  const fi=[-.42,-.18,.06,.3,.52];
+  for(let i=0;i<5;i++){const fx=cx+fi[i]*hw*1.8,fl=hh*(i===0?.44:.58);X.beginPath();X.roundRect(fx-hw*.085,hy-fl,hw*.17,fl+hh*.1,hw*.085);X.fill();}
+  X.beginPath();X.roundRect(cx+hw*.78,hy+hh*.05,hw*.17,hh*.4,hw*.085);X.fill();
+  X.restore();
+  if(p>.2){const pa=(p-.2)/.8;X.fillStyle=`rgba(32,28,22,${pa*.86})`;X.beginPath();X.ellipse(cx,H*.73,W*.1,H*.025,0,0,Math.PI*2);X.fill();X.beginPath();X.arc(cx-W*.14,H*.72,W*.02,0,Math.PI*2);X.fill();}
+}
+
+function drawKeys(p) {
+  const cx=W/2,cy=H*.44;
+  for(let k=0;k<2;k++){
+    const ang=k===0?-.44:.44;
+    X.save();X.translate(cx+(k===0?-W*.065:W*.065),cy);X.rotate(ang);X.globalAlpha=p*.8;
+    const kg=X.createLinearGradient(-W*.005,-H*.22,W*.005,H*.12);
+    kg.addColorStop(0,'rgba(255,215,0,.9)');kg.addColorStop(.5,'rgba(218,172,35,.83)');kg.addColorStop(1,'rgba(188,140,28,.72)');
+    X.strokeStyle=kg;X.lineWidth=W*.012;X.lineCap='round';
+    X.beginPath();X.moveTo(0,H*.1);X.lineTo(0,-H*.18);X.stroke();
+    X.lineWidth=W*.011;X.beginPath();X.arc(0,-H*.22,H*.046,0,Math.PI*2);X.stroke();
+    X.lineWidth=W*.01;
+    X.beginPath();X.moveTo(0,H*.04);X.lineTo(W*.034,H*.04);X.stroke();
+    X.beginPath();X.moveTo(0,H*.01);X.lineTo(W*.027,H*.01);X.stroke();
+    const kgl=X.createRadialGradient(0,0,0,0,0,H*.28);
+    kgl.addColorStop(0,`rgba(255,215,0,${.2*p})`);kgl.addColorStop(1,'rgba(255,180,0,0)');
+    X.fillStyle=kgl;X.globalAlpha=p*.45;X.beginPath();X.arc(0,0,H*.28,0,Math.PI*2);X.fill();
+    X.restore();
+  }
+}
+
+// ── Render loop ───────────────────────────────────────────────────────────────
+function frame(ts) {
+  if (!paused) { const dt = lastTS ? Math.min((ts-lastTS)/1000, .05) : 0; gT += dt; }
+  lastTS = ts;
+  curP = sceneId ? sceneP() : 0;
+  X.clearRect(0, 0, W, H);
+  const id = sceneId, p = curP;
+
+  if (id === 'patmos') {
+    glDraw('stars', (f,_,s3) => { s3('uFog',.12,.18,.35); f('uFogAmt',.18); });
+    drawIsland();
+  } else if (id === 'gold' || id === 'coming') {
+    glDraw('base', (f,_,s3) => s3('uBg',.018,.012,.003));
+    if (id==='coming') for(let i=0;i<4;i++){const cy=H*(-.02+i*.08+.02*Math.sin(gT*.6+i));X.fillStyle=`rgba(22,26,55,${(.35-i*.06)*p})`;X.beginPath();X.ellipse(W*.5+Math.sin(i)*W*.12,cy+H*.16,W*(.28+i*.06)*p,H*.09,0,0,Math.PI*2);X.fill();}
+  } else if (id === 'lampstands') {
+    glDraw('base', (f,_,s3) => s3('uBg',.022,.015,.004));
+    drawFig(lampCount, Math.max(0,(p-.45)/.55));
+  } else if (id === 'whitehair') {
+    glDraw('base', (f,_,s3) => s3('uBg',.005,.006,.018));
+    drawWhiteHair(p);
+  } else if (id === 'fireeyes') {
+    glDraw('fire');
+  } else if (id === 'brassfeet') {
+    glDraw('base', (f,_,s3) => s3('uBg',.018,.008,.002));
+    drawFeet(p);
+  } else if (id === 'waters') {
+    glDraw('water');
+  } else if (id === 'stars') {
+    glDraw('base', (f,_,s3) => s3('uBg',.004,.004,.012));
+    drawStarsHand(p);
+  } else if (id === 'sun') {
+    glDraw('sun');
+  } else if (id === 'fall') {
+    glDraw('base', (f,_,s3) => s3('uBg',.002,.002,.004));
+    drawFall(p);
+  } else if (id === 'hand') {
+    glDraw('base', (f,_,s3) => s3('uBg',.008,.006,.002));
+    drawHand(p);
+  } else if (id === 'keys') {
+    glDraw('stars', (f,_,s3) => { s3('uFog',.18,.14,.04); f('uFogAmt',.06); });
+    drawKeys(p);
+  } else if (id === 'final') {
+    glDraw('stars', (f,_,s3) => { s3('uFog',.22,.16,.04); f('uFogAmt',.12); });
+  } else {
+    glDraw('base', (f,_,s3) => s3('uBg',0,0,0));
+  }
+  requestAnimationFrame(frame);
+}
+
+// ── Timeline ──────────────────────────────────────────────────────────────────
+function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+function clearAll() { timers.forEach(clearTimeout); timers=[]; if(progInt) clearInterval(progInt); }
+
+function startFilm() {
+  clearAll(); gT=0; lastTS=0; lampCount=0; sceneId=null; paused=false; curP=0;
+  document.getElementById('pbtn').textContent='⏸ Pause';
+  document.getElementById('flash').style.opacity=0;
+  document.getElementById('prog').style.width='0%';
+  document.getElementById('cap').style.opacity=0;
+  const t0=Date.now();
+  progInt=setInterval(()=>{const e=Date.now()-t0;document.getElementById('prog').style.width=Math.min(100,e/TOTAL*100)+'%';if(e>=TOTAL)clearInterval(progInt);},250);
+
+  at(400,()=>{setScene('patmos',7);setCaption('Island of Patmos · 95 CE','In exile — for the Word of <span class="paleo">𐤉𐤄𐤅𐤄</span><br>and for the witness of Yahusha ha'Mashiaḥ');});
+  at(8000,()=>{clrCaption();setScene('gold',6);});
+  at(9400,()=>{setCaption('','<em>Revelation of Yahusha ha'Mashiaḥ</em><br>which Elohim gave Him — to show His servants<br><em>what has to take place with speed.</em>');});
+  at(14400,clrCaption);
+  at(15400,()=>{setScene('gold',5);setCaption('','<em>Baruḵ</em> is he who reads and those who hear<br>the words of this neḇuah —<br><span style="color:rgba(255,215,0,.6);font-size:.9em">for the time is near.</span>');});
+  at(21000,clrCaption);
+  at(22000,()=>{setScene('coming',7);setCaption('','<em>See, He is coming with the clouds</em><br>and every eye shall see Him —<br>even they who pierced Him.<br><span style="color:#ffd700">Yes. Amĕn.</span>');});
+  at(27500,()=>{doFlash(420);});
+  at(29000,clrCaption);
+  at(30000,()=>{setScene('lampstands',12);setCaption('','I turned — and saw <em>seven golden lampstands</em><br>and in the midst of them —<br><em>One like the Bĕn of Aḏam</em>');lightLamps(7);});
+  at(38000,clrCaption);
+  at(43000,()=>{setScene('whitehair',8);lampCount=0;setCaption('','His head and hair — <em>white as white wool</em><br>as snow');});
+  at(50000,clrCaption);
+  at(51500,()=>{setScene('fireeyes',9);setCaption('','His eyes —<br><em style="font-size:1.28em;color:#ff6000;letter-spacing:.04em">as a flame of fire</em>');});
+  at(59500,clrCaption);
+  at(61000,()=>{setScene('brassfeet',6);setCaption('','His feet — <em>like burnished brass</em><br>as if refined in a furnace');});
+  at(67000,()=>{setScene('waters',6);setCaption('','His voice —<br><em>as the sound of many waters</em>');});
+  at(73000,clrCaption);
+  at(74000,()=>{setScene('stars',8);setCaption('','In His right hand — <em>seven stars</em><br>Out of His mouth — <em>a sharp two-edged sword</em>');});
+  at(81000,clrCaption);
+  at(82500,()=>{setScene('sun',7);setCaption('','His face —<br><em style="font-size:1.22em">as the sun shining in its strength</em>');});
+  at(87500,()=>{doFlash(950);clrCaption();});
+  at(90000,()=>{setScene('fall',7);setCaption('','And when I saw Him —<br><br><em>I fell at His feet as dead.</em>');});
+  at(96500,clrCaption);
+  at(97500,()=>{setScene('hand',9);setCaption('','And He placed His right hand on me —<br><em>"Do not be afraid."</em><br><span style="color:rgba(255,255,255,.78)">"I am the First and the Last<br>and the <em>Living One</em> — I am living <em>forever and ever. Amĕn.</em>"</span>');});
+  at(105500,clrCaption);
+  at(107000,()=>{setScene('keys',7);setCaption('','<em>"I possess the keys<br>of the grave and of death."</em>');});
+  at(113500,clrCaption);
+  at(115000,()=>{setScene('final',6);setCaption('Hazon · Revelation','<span class="paleo" style="font-size:1.88em">𐤉𐤄𐤅𐤄</span>');});
+}
+
+function togglePause() { paused=!paused; document.getElementById('pbtn').textContent=paused?'▶ Play':'⏸ Pause'; }
+
+requestAnimationFrame(frame);
+startFilm();
+</script>
+</body>
+</html>
