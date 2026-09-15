@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: isNl ? 'De Grote Verstrooiing' : 'The Great Dispersion',
     description: isNl
       ? 'Waar zijn de 12 stammen van Yisra'el vandaag? Profetische aanwijzingen, de Trans-Atlantische slavenhandel, Afrika, Azië en de Amerika's.'
-      : 'Where are the 12 tribes of Yisra'el today? Prophetic clues, the Trans-Atlantic slave trade, Africa, Asia and the Americas.',
+      : "Where are the 12 tribes of Yisra'el today? Prophetic clues, the Trans-Atlantic slave trade, Africa, Asia and the Americas.",
   }
 }
 
@@ -212,19 +212,19 @@ export default async function DispersionPage() {
             region_en: 'Spain, Portugal, North Africa, Turkey (Sephardic)',
             region_nl: 'Spanje, Portugal, Noord-Afrika, Turkije (Sefardisch)',
             detail_en: 'Sephardic Jews — expelled from Spain in 1492 by the Inquisition, the same year Columbus sailed. Settled in Ottoman Empire, Morocco, Amsterdam, and the Americas. "Sephardi" comes from the Hebrew name for Spain (Sepharad, Obadyah 1:20).',
-            detail_nl: 'Sefardische Joden — verdreven uit Spanje in 1492 door de Inquisitie, hetzelfde jaar dat Columbus voer. Vestigden zich in het Ottomaanse Rijk, Marokko, Amsterdam en de Amerika's. "Sefardisch" komt van de Hebreeuwse naam voor Spanje (Sepharad, Obadyah 1:20).',
+            detail_nl: "Sefardische Joden — verdreven uit Spanje in 1492 door de Inquisitie, hetzelfde jaar dat Columbus voer. Vestigden zich in het Ottomaanse Rijk, Marokko, Amsterdam en de Amerika's. "Sefardisch" komt van de Hebreeuwse naam voor Spanje (Sepharad, Obadyah 1:20).",
           },
           {
             region_en: 'Ethiopia — Beta Israel (Falasha)',
             region_nl: 'Ethiopië — Beta Israel (Falasha)',
-            detail_en: 'Beta Israel kept Torah, sacrifices, circumcision and Shabbat with no knowledge of the Talmud — suggesting a very ancient pre-Rabbinic origin. They claim descent from the tribe of Dan through Menelik (son of Shelomoh and the Queen of Sheḇa, 1 Kings 10). Recognized as Jews by Israel's Chief Rabbinate in 1973; over 140,000 now live in Yisra'el.',
-            detail_nl: 'Beta Israel hielden Torah, offers, besnijdenis en Shabbat zonder kennis van de Talmoed — wat wijst op een zeer oud pre-rabbijns oorsprong. Zij claimen afstamming van de stam Dan via Menelik (zoon van Shelomoh en de Koningin van Sheḇa, 1 Koningen 10). Erkend als Joden door de Opperrabbinaat van Yisra'el in 1973; meer dan 140.000 wonen nu in Yisra'el.',
+            detail_en: "Beta Israel kept Torah, sacrifices, circumcision and Shabbat with no knowledge of the Talmud — suggesting a very ancient pre-Rabbinic origin. They claim descent from the tribe of Dan through Menelik (son of Shelomoh and the Queen of Sheḇa, 1 Kings 10). Recognized as Jews by Israel's Chief Rabbinate in 1973; over 140,000 now live in Yisra'el.",
+            detail_nl: "Beta Israel hielden Torah, offers, besnijdenis en Shabbat zonder kennis van de Talmoed — wat wijst op een zeer oud pre-rabbijns oorsprong. Zij claimen afstamming van de stam Dan via Menelik (zoon van Shelomoh en de Koningin van Sheḇa, 1 Koningen 10). Erkend als Joden door de Opperrabbinaat van Yisra'el in 1973; meer dan 140.000 wonen nu in Yisra'el.",
           },
           {
             region_en: 'India — Bene Israel, Cochin Jews, Bnei Menashe',
             region_nl: 'India — Bene Israel, Cochin Joden, Bnei Menashe',
-            detail_en: 'Multiple distinct Jewish communities in India with ancient roots. The Bnei Menashe of Mizoram and Manipur claim the tribe of Menashe — over 2,000 have been formally recognized and made aliyah to Yisra'el.',
-            detail_nl: 'Meerdere afzonderlijke Joodse gemeenschappen in India met oude wortels. De Bnei Menashe van Mizoram en Manipur claimen de stam Menashe — meer dan 2.000 zijn formeel erkend en hebben aliyah gemaakt naar Yisra'el.',
+            detail_en: "Multiple distinct Jewish communities in India with ancient roots. The Bnei Menashe of Mizoram and Manipur claim the tribe of Menashe — over 2,000 have been formally recognized and made aliyah to Yisra'el.",
+            detail_nl: "Meerdere afzonderlijke Joodse gemeenschappen in India met oude wortels. De Bnei Menashe van Mizoram en Manipur claimen de stam Menashe — meer dan 2.000 zijn formeel erkend en hebben aliyah gemaakt naar Yisra'el.",
           },
         ].map((r, i) => (
           <div key={i} style={{ marginBottom: '0.85rem', paddingBottom: '0.85rem', borderBottom: i < 4 ? '1px solid var(--th-border)' : 'none' }}>
