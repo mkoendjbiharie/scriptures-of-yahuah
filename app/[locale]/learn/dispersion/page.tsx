@@ -212,7 +212,7 @@ export default async function DispersionPage() {
             region_en: 'Spain, Portugal, North Africa, Turkey (Sephardic)',
             region_nl: 'Spanje, Portugal, Noord-Afrika, Turkije (Sefardisch)',
             detail_en: 'Sephardic Jews — expelled from Spain in 1492 by the Inquisition, the same year Columbus sailed. Settled in Ottoman Empire, Morocco, Amsterdam, and the Americas. "Sephardi" comes from the Hebrew name for Spain (Sepharad, Obadyah 1:20).',
-            detail_nl: "Sefardische Joden — verdreven uit Spanje in 1492 door de Inquisitie, hetzelfde jaar dat Columbus voer. Vestigden zich in het Ottomaanse Rijk, Marokko, Amsterdam en de Amerika's. "Sefardisch" komt van de Hebreeuwse naam voor Spanje (Sepharad, Obadyah 1:20).",
+            detail_nl: `Sefardische Joden — verdreven uit Spanje in 1492 door de Inquisitie, hetzelfde jaar dat Columbus voer. Vestigden zich in het Ottomaanse Rijk, Marokko, Amsterdam en de Amerika's. "Sefardisch" komt van de Hebreeuwse naam voor Spanje (Sepharad, Obadyah 1:20).`,
           },
           {
             region_en: 'Ethiopia — Beta Israel (Falasha)',
