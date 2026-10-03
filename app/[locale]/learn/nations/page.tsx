@@ -6,20 +6,20 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params
   const isNl = locale === 'nl'
   return {
-    title: isNl ? 'Volken der Aarde" : 'Nations of the Earth",
+    title: isNl ? 'Volken der Aarde' : 'Nations of the Earth',
     description: isNl
       ? 'De 70 volken van Bereshit 10 teruggevoerd naar moderne naties — Josephus, Yobelim, Yashar.'
       : 'The 70 nations of Bereshit 10 traced to modern peoples — Josephus, Jubilees, Jashar.',
   }
 }
 
-type Conf = 'confirmed" | 'high" | 'good" | 'speculative"
+type Conf = 'confirmed' | 'high' | 'good' | 'speculative'
 
 const CONF: Record<Conf, { en: string; nl: string; color: string; bg: string }> = {
-  confirmed:   { en: 'Confirmed",   nl: 'Bevestigd",   color: '#4ade80", bg: 'rgba(74,222,128,0.12)" },
-  high:        { en: 'High",        nl: 'Hoog",        color: '#fbbf24", bg: 'rgba(251,191,36,0.12)" },
-  good:        { en: 'Good",        nl: 'Goed",        color: '#fb923c", bg: 'rgba(251,146,60,0.12)" },
-  speculative: { en: 'Speculative", nl: 'Speculatief", color: '#94a3b8", bg: 'rgba(148,163,184,0.12)" },
+  confirmed:   { en: 'Confirmed',   nl: 'Bevestigd',   color: '#4ade80', bg: 'rgba(74,222,128,0.12)' },
+  high:        { en: 'High',        nl: 'Hoog',        color: '#fbbf24', bg: 'rgba(251,191,36,0.12)' },
+  good:        { en: 'Good',        nl: 'Goed',        color: '#fb923c', bg: 'rgba(251,146,60,0.12)' },
+  speculative: { en: 'Speculative', nl: 'Speculatief', color: '#94a3b8', bg: 'rgba(148,163,184,0.12)' },
 }
 
 type N = {
@@ -420,7 +420,7 @@ function Badge({ conf, isNl }: { conf: Conf; isNl: boolean }) {
     <span style={{
       fontSize: '10px', fontWeight: 700, color: c.color,
       background: c.bg, borderRadius: '4px', padding: '1px 7px',
-      letterSpacing: '0.05em", whiteSpace: 'nowrap", flexShrink: 0,
+      letterSpacing: '0.05em', whiteSpace: 'nowrap', flexShrink: 0,
     }}>
       {isNl ? c.nl : c.en}
     </span>
@@ -431,7 +431,7 @@ function Entry({ n, isNl, depth = 0 }: { n: N; isNl: boolean; depth?: number }) 
   const indent = depth * 20
   return (
     <div style={{ marginLeft: indent, marginBottom: depth === 0 ? '1.25rem' : '0.6rem' }}>
-      <div style={{ display: 'flex", alignItems: 'center", gap: '0.5rem', marginBottom: '0.2rem", flexWrap: 'wrap" }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
         <span style={{
           fontWeight: 700, fontFamily: 'Georgia, serif',
           color: 'var(--th-gold)', fontSize: depth === 0 ? '1rem' : '0.9rem',
@@ -440,17 +440,17 @@ function Entry({ n, isNl, depth = 0 }: { n: N; isNl: boolean; depth?: number }) 
         </span>
         <Badge conf={n.conf} isNl={isNl} />
       </div>
-      <div style={{ fontSize: '13px", color: 'var(--th-muted)", lineHeight: 1.5 }}>
+      <div style={{ fontSize: '13px', color: 'var(--th-muted)', lineHeight: 1.5 }}>
         <span>{isNl ? n.ancient_nl : n.ancient_en}</span>
         <span style={{ color: 'var(--th-accent)', margin: '0 0.35rem' }}>→</span>
         <span style={{ color: 'var(--th-text)' }}>{isNl ? n.modern_nl : n.modern_en}</span>
       </div>
-      <div style={{ fontSize: '11px", color: 'var(--th-muted)", opacity: 0.65, marginTop: '0.1rem' }}>
+      <div style={{ fontSize: '11px', color: 'var(--th-muted)', opacity: 0.65, marginTop: '0.1rem' }}>
         {n.source}
       </div>
       {(isNl ? n.note_nl : n.note_en) && (
         <div style={{
-          fontSize: "12px", color: 'var(--th-text)", opacity: 0.8, fontStyle: 'italic",
+          fontSize: '12px', color: 'var(--th-text)', opacity: 0.8, fontStyle: 'italic',
           marginTop: '0.35rem', paddingLeft: '0.75rem',
           borderLeft: '2px solid var(--th-gold)',
         }}>
@@ -472,7 +472,7 @@ function Entry({ n, isNl, depth = 0 }: { n: N; isNl: boolean; depth?: number }) 
 }
 
 export default async function NationsPage() {
-  const locale = await getLocale() as 'en" | 'nl"
+  const locale = await getLocale() as 'en' | 'nl'
   const isNl = locale === 'nl'
 
   const sectionStyle = (border: string) => ({
@@ -486,13 +486,13 @@ export default async function NationsPage() {
   return (
     <div>
       <div style={{ marginBottom: '0.5rem' }}>
-        <Link href={`/${locale}/learn`} style={{ fontSize: '12px", color: 'var(--th-accent)", textDecoration: 'none' }}>
-          ← {isNl ? 'Terug naar Leren" : 'Back to Learn"}
+        <Link href={`/${locale}/learn`} style={{ fontSize: '12px', color: 'var(--th-accent)', textDecoration: 'none' }}>
+          ← {isNl ? 'Terug naar Leren' : 'Back to Learn'}
         </Link>
       </div>
 
-      <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem", fontWeight: 700, color: 'var(--th-gold)", marginBottom: '0.25rem' }}>
-        {isNl ? 'Volken der Aarde" : 'Nations of the Earth"}
+      <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '2rem', fontWeight: 700, color: 'var(--th-gold)', marginBottom: '0.25rem' }}>
+        {isNl ? 'Volken der Aarde' : 'Nations of the Earth'}
       </h1>
       <p style={{ color: 'var(--th-muted)', fontSize: '14px', marginBottom: '0.5rem' }}>
         {isNl
@@ -507,16 +507,16 @@ export default async function NationsPage() {
 
       {/* Legend */}
       <div style={{
-        display: "flex", flexWrap: 'wrap", gap: '0.5rem",
+        display: 'flex', flexWrap: 'wrap', gap: '0.5rem',
         marginBottom: '2rem', padding: '0.75rem 1rem',
         background: 'var(--th-card)', borderRadius: '8px',
-        fontSize: "12px', color: 'var(--th-muted)",
+        fontSize: '12px', color: 'var(--th-muted)',
       }}>
         <span style={{ fontWeight: 700, color: 'var(--th-gold)', marginRight: '0.25rem' }}>
-          {isNl ? 'Betrouwbaarheid:" : 'Confidence:"}
+          {isNl ? 'Betrouwbaarheid:' : 'Confidence:'}
         </span>
-        {(['confirmed",'high",'good",'speculative"] as Conf[]).map((k) => (
-          <span key={k} style={{ display: 'flex", alignItems: 'center", gap: '0.3rem' }}>
+        {(['confirmed','high','good','speculative'] as Conf[]).map((k) => (
+          <span key={k} style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
             <span style={{
               fontSize: '10px', fontWeight: 700, color: CONF[k].color,
               background: CONF[k].bg, borderRadius: '4px', padding: '1px 7px',
@@ -530,9 +530,9 @@ export default async function NationsPage() {
       {/* YAPHETH */}
       <div style={sectionStyle('#60a5fa')}>
         <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.3rem', fontWeight: 700, color: '#60a5fa', marginBottom: '0.25rem' }}>
-          {isNl ? 'Zonen van Yapheth" : 'Sons of Yapheth"}
+          {isNl ? 'Zonen van Yapheth' : 'Sons of Yapheth'}
         </h2>
-        <p style={{ fontSize: '13px", color: 'var(--th-muted)", marginBottom: '1.25rem' }}>
+        <p style={{ fontSize: '13px', color: 'var(--th-muted)', marginBottom: '1.25rem' }}>
           {isNl
             ? 'Grondgebied: het noorden en westen — Europa, Rusland, Centraal-Azië · Yobelim 9:7–13'
             : 'Territory: the north and west — Europe, Russia, Central Asia · Jubilees 9:7–13'}
@@ -543,9 +543,9 @@ export default async function NationsPage() {
       {/* HAM */}
       <div style={sectionStyle('#f87171')}>
         <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.3rem', fontWeight: 700, color: '#f87171', marginBottom: '0.25rem' }}>
-          {isNl ? 'Zonen van Ḥam" : 'Sons of Ḥam"}
+          {isNl ? 'Zonen van Ḥam' : 'Sons of Ḥam'}
         </h2>
-        <p style={{ fontSize: '13px", color: 'var(--th-muted)", marginBottom: '1.25rem' }}>
+        <p style={{ fontSize: '13px', color: 'var(--th-muted)', marginBottom: '1.25rem' }}>
           {isNl
             ? 'Grondgebied: het zuiden — Afrika, het Midden-Oosten, de Levant · Yobelim 9:1–6'
             : 'Territory: the south — Africa, the Middle East, the Levant · Jubilees 9:1–6'}
@@ -555,10 +555,10 @@ export default async function NationsPage() {
 
       {/* SHEM */}
       <div style={sectionStyle('var(--th-gold)')}>
-        <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.3rem", fontWeight: 700, color: 'var(--th-gold)", marginBottom: '0.25rem' }}>
-          {isNl ? 'Zonen van Shem" : 'Sons of Shem"}
+        <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '1.3rem', fontWeight: 700, color: 'var(--th-gold)', marginBottom: '0.25rem' }}>
+          {isNl ? 'Zonen van Shem' : 'Sons of Shem'}
         </h2>
-        <p style={{ fontSize: '13px", color: 'var(--th-muted)", marginBottom: '1.25rem' }}>
+        <p style={{ fontSize: '13px', color: 'var(--th-muted)', marginBottom: '1.25rem' }}>
           {isNl
             ? 'Grondgebied: het midden — Midden-Oosten, Perzië, Arabië · Yobelim 8:12–21'
             : 'Territory: the middle — Middle East, Persia, Arabia · Jubilees 8:12–21'}
@@ -568,12 +568,12 @@ export default async function NationsPage() {
 
       {/* Footer note */}
       <div style={{
-        padding: "1rem 1.25rem", background: 'var(--th-card)", borderRadius: '8px",
-        fontSize: '12px", color: 'var(--th-muted)", lineHeight: 1.7,
+        padding: '1rem 1.25rem', background: 'var(--th-card)', borderRadius: '8px',
+        fontSize: '12px', color: 'var(--th-muted)', lineHeight: 1.7,
         borderLeft: '3px solid var(--th-accent)',
       }}>
         <strong style={{ color: 'var(--th-accent)' }}>
-          {isNl ? 'Opmerking over zekerheid" : 'A note on certainty"}
+          {isNl ? 'Opmerking over zekerheid' : 'A note on certainty'}
         </strong>
         <br />
         {isNl
@@ -581,18 +581,18 @@ export default async function NationsPage() {
           : 'Many of these identifications are well-documented by archaeology, linguistics and multiple ancient sources. Others remain scholarly speculation. Yahuah knows the boundaries of all peoples (Acts/Maaseh 17:26) — this mapping is our best understanding, not a definitive claim. Use the sources themselves as the reference.'}
       </div>
 
-      <div style={{ marginTop: '2rem", display: 'flex", gap: '1rem", flexWrap: 'wrap" }}>
+      <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <Link href={`/${locale}/learn/dispersion`} style={{
-          fontSize: "13px", color: 'var(--th-accent)", textDecoration: 'none",
-          fontWeight: 600, display: 'flex", alignItems: 'center", gap: '0.35rem',
+          fontSize: '13px', color: 'var(--th-accent)', textDecoration: 'none',
+          fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem',
         }}>
-          ⛵ {isNl ? "De Grote Verstrooiing van Yisra'el →" : "The Great Dispersion of Yisra'el →"}
+          ⛵ {isNl ? "De Grote Verstrooiing van Yisra'el →" : 'The Great Dispersion of Yisra'el →'}
         </Link>
         <Link href={`/${locale}/learn/two-houses`} style={{
-          fontSize: "13px", color: 'var(--th-accent)", textDecoration: 'none",
-          fontWeight: 600, display: 'flex", alignItems: 'center", gap: '0.35rem',
+          fontSize: '13px', color: 'var(--th-accent)', textDecoration: 'none',
+          fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem',
         }}>
-          🏡 {isNl ? "De Twee Huizen van Yisra'el →" : "The Two Houses of Yisra'el →"}
+          🏡 {isNl ? "De Twee Huizen van Yisra'el →" : 'The Two Houses of Yisra'el →'}
         </Link>
       </div>
     </div>
