@@ -146,7 +146,7 @@ export default function CalendarPage() {
               </div>
             </div>
             <div style={{ marginTop: '1rem', padding: '0.75rem 1rem', background: 'var(--th-bg)', borderRadius: '8px', fontSize: '12px', color: 'var(--th-muted)' }}>
-              <strong style={{ color: 'var(--th-text)' }}>{isNl ? 'Sleutelverzen: ' : 'Key verses: '}</strong>
+              <strong style={{ color: 'var(--th-text)' }}>{isNl ? 'Sleutelverzen:' : 'Key verses:'}</strong>
               Bereshit 1:14 · Shemoth 12:2 · Tehillim 104:19 · Yeshayahu 66:23
             </div>
           </div>
@@ -222,7 +222,7 @@ export default function CalendarPage() {
             </div>
 
             <div style={{ marginTop: '1rem', padding: '0.75rem 1rem', background: 'var(--th-bg)', borderRadius: '8px', fontSize: '12px', color: 'var(--th-muted)' }}>
-              <strong style={{ color: 'var(--th-text)' }}>{isNl ? 'Sleutelbronnen: ' : 'Key sources: '}</strong>
+              <strong style={{ color: 'var(--th-text)' }}>{isNl ? 'Sleutelbronnen:' : 'Key sources:'}</strong>
               {'1 Ḥanok 72-82 · '}{isNl ? 'Jubileeën' : 'Jubilees'}{' 6:29-38 · '}{isNl ? 'Dode Zee-rollen (Qumran)' : 'Dead Sea Scrolls (Qumran)'}
             </div>
           </div>

@@ -586,13 +586,13 @@ export default async function NationsPage() {
           fontSize: '13px', color: 'var(--th-accent)', textDecoration: 'none',
           fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem',
         }}>
-          ⛵ {isNl ? "De Grote Verstrooiing van Yisra'el →" : 'The Great Dispersion of Yisra'el →'}
+          ⛵ {isNl ? "De Grote Verstrooiing van Yisra'el →" : "The Great Dispersion of Yisra'el →"}
         </Link>
         <Link href={`/${locale}/learn/two-houses`} style={{
           fontSize: '13px', color: 'var(--th-accent)', textDecoration: 'none',
           fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.35rem',
         }}>
-          🏡 {isNl ? "De Twee Huizen van Yisra'el →" : 'The Two Houses of Yisra'el →'}
+          🏡 {isNl ? "De Twee Huizen van Yisra'el →" : "The Two Houses of Yisra'el →"}
         </Link>
       </div>
     </div>
