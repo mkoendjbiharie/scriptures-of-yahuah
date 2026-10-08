@@ -76,7 +76,7 @@ export default async function ChapterPage({ params }: Props) {
 
   return (
     <div style={{ maxWidth: '42rem' }}>
-      <div style={{ marginBottom: '1.5rem' }}>
+      <div style={{ marginBottom: '1rem' }}>
         <BackLink href={`/${locale}/read/${bookSlug}`} label={`← ${book.name_original}`} />
         <h1 style={{ fontFamily: 'Georgia, serif', fontSize: '1.75rem', fontWeight: 700, color: 'var(--th-gold)' }}>
           {book.name_original} {chapterNum}
@@ -86,12 +86,20 @@ export default async function ChapterPage({ params }: Props) {
         </p>
       </div>
 
+      <ChapterNav
+        bookSlug={bookSlug}
+        chapterNum={chapterNum}
+        totalChapters={book.chapter_count}
+        locale={locale}
+        isTop
+      />
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2rem' }}>
         {resolvedVerses.length > 0 && resolvedVerses[0].verse_number > 1 && (
           <p style={{ fontSize: '12px', color: 'var(--th-muted)', fontStyle: 'italic', margin: '0 0 0.25rem' }}>
             {locale === 'nl'
-              ? `[Vers${resolvedVerses[0].verse_number > 2 ? 'en 1–' + (resolvedVerses[0].verse_number - 1) : ' 1'} ontbreekt in de brondata van de Halleluyah Scriptures PDF]`
-              : `[Verse${resolvedVerses[0].verse_number > 2 ? 's 1–' + (resolvedVerses[0].verse_number - 1) : ' 1'} missing from source data]`}
+              ? `[Vers${resolvedVerses[0].verse_number > 2 ? 'en 1\u2013' + (resolvedVerses[0].verse_number - 1) : ' 1'} ontbreekt in de brondata van de Halleluyah Scriptures PDF]`
+              : `[Verse${resolvedVerses[0].verse_number > 2 ? 's 1\u2013' + (resolvedVerses[0].verse_number - 1) : ' 1'} missing from source data]`}
           </p>
         )}
         {resolvedVerses.map((verse: { id: number; verse_number: number; text: string }) => (

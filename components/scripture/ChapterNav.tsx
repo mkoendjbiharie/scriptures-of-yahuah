@@ -5,9 +5,10 @@ type Props = {
   chapterNum: number
   totalChapters: number
   locale: string
+  isTop?: boolean
 }
 
-export default function ChapterNav({ bookSlug, chapterNum, totalChapters, locale }: Props) {
+export default function ChapterNav({ bookSlug, chapterNum, totalChapters, locale, isTop }: Props) {
   const prev = chapterNum > 1 ? chapterNum - 1 : null
   const next = chapterNum < totalChapters ? chapterNum + 1 : null
 
@@ -22,8 +23,12 @@ export default function ChapterNav({ bookSlug, chapterNum, totalChapters, locale
     display: 'inline-block',
   }
 
+  const wrapperStyle: React.CSSProperties = isTop
+    ? { display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--th-border)' }
+    : { display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '2rem', borderTop: '1px solid var(--th-border)' }
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '2rem', borderTop: '1px solid var(--th-border)' }}>
+    <div style={wrapperStyle}>
       {prev ? (
         <Link href={`/${locale}/read/${bookSlug}/${prev}`} style={btnStyle}>← {prev}</Link>
       ) : <div />}
