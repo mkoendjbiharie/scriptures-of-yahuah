@@ -1,4 +1,3 @@
-import { getLocale } from 'next-intl/server'
 import Link from 'next/link'
 import BackButton from '@/components/ui/BackButton'
 import { createClient } from '@/lib/supabase/server'
@@ -98,8 +97,8 @@ async function getVerses(locale: string) {
   return { ch1, ch12 }
 }
 
-export default async function TobiyahPage() {
-  const locale = await getLocale()
+export default async function TobiyahPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
   const tooltips = getTooltips(locale)
   const { ch1, ch12 } = await getVerses(locale)

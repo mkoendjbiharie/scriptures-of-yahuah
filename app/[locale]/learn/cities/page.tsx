@@ -1,5 +1,4 @@
 import BackButton from '@/components/ui/BackButton'
-import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import RichText from '@/components/scripture/RichText'
 import Link from 'next/link'
@@ -55,8 +54,8 @@ export default async function CitiesPage({
   searchParams,
 }: {
   searchParams: Promise<{ type?: string; q?: string }>
-}) {
-  const locale = await getLocale() as 'en' | 'nl'
+}, { params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
   const supabase = await createClient()
   const { type: activeFilter, q: searchQ } = await searchParams

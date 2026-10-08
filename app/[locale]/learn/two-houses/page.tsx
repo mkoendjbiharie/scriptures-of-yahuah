@@ -1,8 +1,7 @@
 import BackButton from '@/components/ui/BackButton'
-import { getLocale } from 'next-intl/server'
 
-export default async function TwoHousesPage() {
-  const locale = await getLocale()
+export default async function TwoHousesPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   const sections = isNl ? [

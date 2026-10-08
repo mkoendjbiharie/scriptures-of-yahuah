@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { getLocale } from 'next-intl/server'
 import Link from 'next/link'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -77,8 +76,8 @@ function TribeRow({ tribes, claim, evidence_en, evidence_nl, strength, isNl }: {
   )
 }
 
-export default async function DispersionPage() {
-  const locale = await getLocale() as 'en' | 'nl'
+export default async function DispersionPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   return (

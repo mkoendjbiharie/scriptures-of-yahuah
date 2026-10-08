@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { getLocale } from 'next-intl/server'
 import Link from 'next/link'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -471,8 +470,8 @@ function Entry({ n, isNl, depth = 0 }: { n: N; isNl: boolean; depth?: number }) 
   )
 }
 
-export default async function NationsPage() {
-  const locale = await getLocale() as 'en' | 'nl'
+export default async function NationsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   const sectionStyle = (border: string) => ({

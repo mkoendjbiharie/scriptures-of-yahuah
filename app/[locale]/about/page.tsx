@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import BackLink from '@/components/ui/BackLink'
-import { getLocale } from 'next-intl/server'
 
-export default async function AboutPage() {
-  const locale = await getLocale()
+export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   return (

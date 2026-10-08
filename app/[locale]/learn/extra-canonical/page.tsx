@@ -1,9 +1,8 @@
 import BackButton from '@/components/ui/BackButton'
-import { getLocale } from 'next-intl/server'
 import Link from 'next/link'
 
-export default async function ExtraCanonicalPage() {
-  const locale = await getLocale()
+export default async function ExtraCanonicalPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   const books = isNl ? [

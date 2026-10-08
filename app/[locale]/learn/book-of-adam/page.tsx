@@ -1,4 +1,3 @@
-import { getLocale } from 'next-intl/server'
 import Link from 'next/link'
 import BackButton from '@/components/ui/BackButton'
 import { createClient } from '@/lib/supabase/server'
@@ -102,8 +101,8 @@ async function getVerses(locale: string) {
   return { ch1, ch12, ch13, ch14 }
 }
 
-export default async function BookOfAdamPage() {
-  const locale = await getLocale()
+export default async function BookOfAdamPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
   const tooltips = getTooltips(locale)
   const { ch1, ch12, ch13, ch14 } = await getVerses(locale)

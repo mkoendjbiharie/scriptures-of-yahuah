@@ -1,4 +1,3 @@
-import { getLocale } from 'next-intl/server'
 import Link from 'next/link'
 import BackButton from '@/components/ui/BackButton'
 import { createClient } from '@/lib/supabase/server'
@@ -117,8 +116,8 @@ async function getVerses(locale: string) {
   return { jub10, hanok7, hanok8, hanok60, hanok106 }
 }
 
-export default async function BookOfNoahPage() {
-  const locale = await getLocale()
+export default async function BookOfNoahPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
   const tooltips = getTooltips(locale)
   const { jub10, hanok7, hanok8, hanok60, hanok106 } = await getVerses(locale)

@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import BackButton from '@/components/ui/BackButton'
-import { getLocale } from 'next-intl/server'
 
-export default async function TorahPage() {
-  const locale = await getLocale()
+export default async function TorahPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   const books = isNl ? [

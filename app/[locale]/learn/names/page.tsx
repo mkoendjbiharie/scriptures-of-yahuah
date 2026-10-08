@@ -13,7 +13,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 import Link from 'next/link'
 import BackButton from '@/components/ui/BackButton'
-import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { hebrewToPaleo } from '@/lib/names/paleo'
 import RichText from '@/components/scripture/RichText'
@@ -123,8 +122,8 @@ type Props = { searchParams: Promise<SearchParams> }
 
 const PER_PAGE = 60
 
-export default async function NamesPage({ searchParams }: Props) {
-  const locale = await getLocale() as 'en' | 'nl'
+export default async function NamesPage({ searchParams }: Props, { params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
   const { letter, cat, q, page: pageStr } = await searchParams
   const page = Math.max(1, parseInt(pageStr ?? '1'))

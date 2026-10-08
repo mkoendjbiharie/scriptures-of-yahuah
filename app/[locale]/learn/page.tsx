@@ -12,11 +12,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 import Link from 'next/link'
-import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 
-export default async function LearnPage() {
-  const locale = await getLocale() as 'en' | 'nl'
+export default async function LearnPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   const supabase = await createClient()

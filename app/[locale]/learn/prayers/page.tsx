@@ -1,5 +1,4 @@
 import BackButton from '@/components/ui/BackButton'
-import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import RichText from '@/components/scripture/RichText'
 
@@ -38,8 +37,8 @@ async function fetchVerses(
   return (data ?? []) as { verse_number: number; text: string }[]
 }
 
-export default async function PrayersPage() {
-  const locale = await getLocale()
+export default async function PrayersPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
   const supabase = await createClient()
 

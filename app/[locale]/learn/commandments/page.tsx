@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import BackButton from '@/components/ui/BackButton'
-import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { normalizeVerseText } from '@/lib/text-utils'
 import RichText from '@/components/scripture/RichText'
@@ -93,8 +92,8 @@ function displayText(row: VerseRow) {
   return row.translation_text ?? row.text
 }
 
-export default async function CommandmentsPage() {
-  const locale = await getLocale()
+export default async function CommandmentsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
   const isNl = locale === 'nl'
 
   const [tenWords, torahVerse, fulfillVerse, loveYahuah] = await Promise.all([
