@@ -23,7 +23,7 @@ type Props = {
 
 export default async function BooksPage({ params }: Props) {
   const { locale } = await params
-  const t = await getTranslations('read')
+  const t = await getTranslations({ locale, namespace: 'read' })
   const books = await getBooks()
   const oldTestament = books.filter((b) => b.testament === 'old')
   const newTestament = books.filter((b) => b.testament === 'new')

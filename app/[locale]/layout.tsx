@@ -1,5 +1,4 @@
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
 import { locales } from '@/lib/i18n'
 import type { Locale } from '@/lib/i18n'
 import Header from '@/components/layout/Header'
@@ -19,7 +18,7 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params
-  const messages = await getMessages()
+  const messages = (await import(`@/messages/${locale}.json`)).default
 
   return (
     <html lang={locale} data-theme="yashepheh">
@@ -32,12 +31,12 @@ export default async function LocaleLayout({ children, params }: Props) {
         <meta name="apple-mobile-web-app-title" content="Scriptures of Yahuah" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
       </head>
-      <body style={{ minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif' }}>
-        <NextIntlClientProvider messages={messages}>
+      <body style={{ minHeight: "100vh", fontFamily: "Inter, system-ui, sans-serif" }}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
             <RegisterSW />
             <Header />
-            <main style={{ maxWidth: '56rem', margin: '0 auto', padding: '1.5rem 1rem 4rem' }}>
+            <main style={{ maxWidth: "56rem", margin: "0 auto", padding: "1.5rem 1rem 4rem" }}>
               {children}
             </main>
             <Footer />

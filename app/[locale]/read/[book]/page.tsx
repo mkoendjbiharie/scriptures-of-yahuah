@@ -29,7 +29,7 @@ type Props = {
 
 export default async function BookPage({ params }: Props) {
   const { book: bookSlug, locale } = await params
-  const t = await getTranslations('read')
+  const t = await getTranslations({ locale, namespace: 'read' })
 
   const { createClient } = await import('@/lib/supabase/server')
   const supabase = await createClient()

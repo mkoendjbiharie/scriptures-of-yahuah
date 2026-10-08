@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-import { getTranslations, getLocale } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { renderWithTooltips } from '@/components/scripture/RichText'
@@ -59,9 +59,9 @@ const divider: React.CSSProperties = {
   opacity: 0.4, borderRadius: '1px',
 }
 
-export default async function HomePage() {
-  const locale = await getLocale()
-  const t = await getTranslations('home')
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'home' })
   const votd = await getVerseOfDay(locale)
   const tooltips = getTooltips(locale)
   const isNl = locale === 'nl'
