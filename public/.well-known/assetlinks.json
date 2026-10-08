@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.yahuah.scriptures",
+      "sha256_cert_fingerprints": [
+        "05:94:82:62:01:F7:E9:E2:10:7A:E9:D3:68:12:77:D2:B3:52:F3:EE:DF:34:F3:91:43:70:D9:BA:AE:8E:A8:2F"
+      ]
+    }
+  }
+]
