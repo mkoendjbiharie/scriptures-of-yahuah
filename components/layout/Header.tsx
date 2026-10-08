@@ -25,7 +25,7 @@ export default function Header() {
   }
 
   return (
-    <header style={{ background: 'var(--th-header)', borderBottom: '1px solid var(--th-border)', position: 'sticky', top: 0, zIndex: 30, height: '60px' }}>
+    <header style={{ background: 'var(--th-header)', borderBottom: '1px solid var(--th-border)', position: 'sticky', top: 0, zIndex: 30 }}>
       <div style={{ maxWidth: '72rem', margin: '0 auto', padding: '0 1.5rem', height: '60px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1rem' }}>
 
         {/* Logo — left */}
