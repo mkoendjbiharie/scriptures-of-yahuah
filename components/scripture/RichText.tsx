@@ -9,6 +9,7 @@
  *                                         = Yahusha, the Son (his name in a custom glyph)
  */
 import React from 'react'
+import NameTooltip from './NameTooltip'
 import { TOOLTIP_KEYS, getTooltips, LOCALE_STOPWORDS } from '@/lib/names/tooltips'
 import { hebrewToPaleo } from '@/lib/names/paleo'
 
@@ -76,13 +77,12 @@ function splitByDiacritics(text: string, baseKey: string | number): React.ReactN
   while ((match = DIACRITIC_TOKEN_RE.exec(text)) !== null) {
     if (match.index > last) result.push(text.slice(last, match.index))
     result.push(
-      <span
+      <NameTooltip
         key={`${baseKey}-d-${match.index}`}
-        title="Transliterated Hebrew/Aramaic name — not yet in the glossary"
+        text={match[0]}
+        tooltip="Transliterated Hebrew/Aramaic name — not yet in the glossary"
         style={UNKNOWN_STYLE}
-      >
-        {match[0]}
-      </span>
+      />
     )
     last = match.index + match[0].length
   }
@@ -106,14 +106,13 @@ export function renderWithTooltips(
     // Yahuah — the Father's Name in Paleo-Hebrew (𐤉𐤄𐤅𐤄) or HWHY variant
     if (part === PALEO || part === 'HWHY' || part === 'hWhY' || part === 'HWhY') {
       result.push(
-        <span
+        <NameTooltip
           key={i}
-          title={tooltips['HWHY'] ?? '\u{10909}\u{10904}\u{10905}\u{10904} Yahuah — "I AM that I AM" · The Self-Existing One'}
+          text={PALEO}
+          tooltip={tooltips['HWHY'] ?? '\u{10909}\u{10904}\u{10905}\u{10904} Yahuah — "I AM that I AM" · The Self-Existing One'}
           className="paleo-hebrew"
           style={PALEO_STYLE}
-        >
-          {PALEO}
-        </span>
+        />
       )
       return
     }
@@ -121,13 +120,13 @@ export function renderWithTooltips(
     // Yahusha — the Son's Name ({fWHY is a PDF font extraction artifact)
     if (part === '{fWHY' || part === '{vWHY' || part === '[vWHY' || part === '[VWHY' || part === '[vHWY') {
       result.push(
-        <span
+        <NameTooltip
           key={i}
-          title={'Yahusha — "Yahuah saves" · The Messiah, the Son who bears the Father’s Name'}
+          text="Yahusha"
+          tooltip={'Yahusha \u2014 "Yahuah saves" \u00B7 The Messiah, the Son who bears the Father\'s Name'}
           style={YAHUSHA_STYLE}
-        >
-          Yahusha
-        </span>
+        />
+      )
       )
       return
     }
@@ -136,9 +135,7 @@ export function renderWithTooltips(
     const tooltip = tooltips[part]
     if (tooltip && !stopwords.has(part.toLowerCase())) {
       result.push(
-        <span key={i} title={tooltip} style={TERM_STYLE}>
-          {part}
-        </span>
+        <NameTooltip key={i} text={part} tooltip={tooltip} style={TERM_STYLE} />
       )
       return
     }
