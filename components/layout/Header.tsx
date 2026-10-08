@@ -26,16 +26,29 @@ export default function Header() {
 
   return (
     <header style={{ background: 'var(--th-header)', borderBottom: '1px solid var(--th-border)', position: 'sticky', top: 0, zIndex: 30 }}>
-      <div style={{ maxWidth: '72rem', margin: '0 auto', padding: '0 1.5rem', height: '60px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '1rem' }}>
+      <div style={{ maxWidth: '72rem', margin: '0 auto', padding: '0 1rem', height: '60px', display: 'flex', alignItems: 'center', gap: '8px' }}>
 
-        {/* Logo — left */}
-        <Link href="/" style={{ textDecoration: 'none', fontFamily: 'Georgia, serif', fontWeight: 600, fontSize: '18px', color: 'var(--th-logo)', letterSpacing: '0.02em', display: 'inline-flex', alignItems: 'center', gap: '10px', justifySelf: 'start' }}>
-          <img src="/icon.svg" alt="" width={38} height={38} style={{ display: 'block', flexShrink: 0 }} />
-          Scriptures of <span className="paleo-hebrew" style={{ fontSize: '22px', color: 'var(--th-gold)', letterSpacing: '0.1em' }}>𐤉𐤄𐤅𐤄</span>
+        {/* Hamburger — mobile left */}
+        <button
+          className="hamburger-btn"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          style={{ display: 'none', flexShrink: 0, flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
+        >
+          {menuOpen
+            ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--th-nav)" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--th-nav)" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          }
+        </button>
+
+        {/* Logo */}
+        <Link href="/" style={{ textDecoration: 'none', fontFamily: 'Georgia, serif', fontWeight: 600, fontSize: '18px', color: 'var(--th-logo)', letterSpacing: '0.02em', display: 'inline-flex', alignItems: 'center', gap: '8px', flexShrink: 0 }} className="header-logo">
+          <img src="/icon.svg" alt="" width={34} height={34} style={{ display: 'block', flexShrink: 0 }} />
+          <span className="logo-text">Scriptures of <span className="paleo-hebrew" style={{ fontSize: '22px', color: 'var(--th-gold)', letterSpacing: '0.1em' }}>𐤉𐤄𐤅𐤄</span></span>
         </Link>
 
-        {/* Desktop nav — center */}
-        <nav style={{ display: 'flex', gap: '28px', alignItems: 'center' }} className="desktop-nav">
+        {/* Desktop nav — center, grows to fill space */}
+        <nav style={{ display: 'flex', gap: '28px', alignItems: 'center', flex: 1, justifyContent: 'center' }} className="desktop-nav">
           {NAV_LINKS.map((l) => {
             const active = isActive(l.href)
             return (
@@ -63,20 +76,9 @@ export default function Header() {
         </nav>
 
         {/* Controls — right */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifySelf: 'end' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: 'auto' }}>
           <div className="desktop-nav"><LanguageSwitcher /></div>
           <ThemeSwitcher />
-          <button
-            className="hamburger-btn"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            style={{ display: 'none', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
-          >
-            {menuOpen
-              ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--th-nav)" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--th-nav)" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            }
-          </button>
         </div>
       </div>
 
@@ -113,6 +115,7 @@ export default function Header() {
         @media (max-width: 640px) {
           .desktop-nav { display: none !important; }
           .hamburger-btn { display: flex !important; }
+          .logo-text { display: none; }
         }
         .nav-link:hover {
           color: var(--th-accent) !important;
