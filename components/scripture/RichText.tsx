@@ -127,7 +127,6 @@ export function renderWithTooltips(
           style={YAHUSHA_STYLE}
         />
       )
-      )
       return
     }
 
